@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace DataLayer.Entities
+namespace SimbirsfotStaging10.DAL.Entities
 {
     [Table("EventLog")]
     public class EventLog

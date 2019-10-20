@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataLayer.Entities
+namespace SimbirsfotStaging10.DAL.Entities
 {
     [Table("Equipment")]
     public class Equipment

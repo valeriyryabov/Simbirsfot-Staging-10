@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DataLayer.Entities
+namespace SimbirsfotStaging10.DAL.Entities
 {
     [Table("CardPlatforms")]
     public class CardPlatformItem

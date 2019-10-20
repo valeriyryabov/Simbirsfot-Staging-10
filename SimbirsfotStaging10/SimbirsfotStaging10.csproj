@@ -13,7 +13,8 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Data Layer\Data Layer.csproj" />
+    <ProjectReference Include="..\SimbirsfotStaging10.BLL\SimbirsfotStaging10.BLL.csproj" />
+    <ProjectReference Include="..\SimbirsfotStaging10.DAL\SimbirsfotStaging10.DAL.csproj" />
   </ItemGroup>
 
 </Project>

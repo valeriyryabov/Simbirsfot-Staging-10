@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DataLayer.Entities;
-using System.ComponentModel.DataAnnotations.Schema;
+using SimbirsfotStaging10.DAL.Entities;
 
-namespace DataLayer.Data
+namespace SimbirsfotStaging10.DAL.Data
 {
-    public class SkiDBContext : DbContext
+	public class SkiDBContext : DbContext
     {
         public SkiDBContext(DbContextOptions options) : base(options) { }
 

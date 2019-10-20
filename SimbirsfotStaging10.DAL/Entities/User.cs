@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 
-namespace DataLayer.Entities
+namespace SimbirsfotStaging10.DAL.Entities
 {
     public class User
     {

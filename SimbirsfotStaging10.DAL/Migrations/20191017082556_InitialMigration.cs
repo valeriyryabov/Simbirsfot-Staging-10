@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Data_Layer.Migrations
+namespace SimbirsfotStaging10.DAL.Migrations
 {
     public partial class InitialMigration : Migration
     {
