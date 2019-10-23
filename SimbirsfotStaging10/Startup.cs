@@ -4,6 +4,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SimbirsfotStaging10.DAL.Data;
+using Microsoft.EntityFrameworkCore;
+using SimbirsfotStaging10.BLL.Interfaces;
+using SimbirsfotStaging10.BLL.Services;
+using SimbirsfotStaging10.DAL.Entities;
 
 namespace SimbirsfotStaging10
 {
@@ -26,9 +31,16 @@ namespace SimbirsfotStaging10
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
 
+			
+            services.AddDbContextPool<SkiDBContext>( optionsBuilder => 
+                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddTransient<IUserService, UserService>();
+            services.AddIdentity<User, CustomRole>(opts => opts.SetCustomIdentityOptions())
+                .AddEntityFrameworkStores<SkiDBContext>();
+            services.ConfigureApplicationCookie( opts => opts.LoginPath = "/Account/Login");
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-		}
+        }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -48,7 +60,8 @@ namespace SimbirsfotStaging10
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
 
-			app.UseMvc();
+            app.UseAuthentication();
+            app.UseMvc(routes => routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"));
 		}
 	}
 }
