@@ -1,20 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace SimbirsfotStaging10.DAL.Entities
 {
-    public class User
+    public class User : IdentityUser<int>
     {
-        public int Id { get; set; }
-
         [Column(TypeName = "varchar(255)")]
-        public string Email { get; set; }
+        public override string Email { get; set; }
 
         [Required]
-        [Column(TypeName = "binary(64)")]
-        public string PasswordHash { get; set; }
+        [Column(TypeName = "nvarchar(255)")]
+        public override string PasswordHash { get; set; }
 
         [Required]
         [Column(TypeName = "varchar(255)")]
@@ -22,6 +23,6 @@ namespace SimbirsfotStaging10.DAL.Entities
 
         public List<Card> CardList { get; set; }
 
-        public List<UserEquipmentItem> UserEquipmentList { get; set; }
+        public List<UserEquipmentItem> UserEquipmentList { get; set; }      
     }
 }
