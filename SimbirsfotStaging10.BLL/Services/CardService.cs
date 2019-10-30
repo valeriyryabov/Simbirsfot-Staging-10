@@ -6,12 +6,12 @@ using SimbirsfotStaging10.DAL.Entities;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
 using System.Threading.Tasks;
+using SimbirsfotStaging10.BLL.Infrastructure;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
     public class CardService : ICardService
     {
-        public SkiDBContext.EFDBContextFactory contextFactory = new SkiDBContext.EFDBContextFactory();
         private SkiDBContext _context;
 
         public CardService(SkiDBContext context)
@@ -19,25 +19,74 @@ namespace SimbirsfotStaging10.BLL.Services
             _context = context;
         }
 
-        public async Task AddNewCard(CardDTO cardDTO)
+        public async Task<OperationDetail> AddNewCard(CardDTO cardDTO)
         {
-            await _context.AddAsync<Card>(CreateCardEntityFromDTO(cardDTO)).ConfigureAwait(true);
+            try
+            {
+                await _context.Cards.AddAsync(CreateCardEntityFromDTO(cardDTO)).ConfigureAwait(true);
+                await _context.SaveChangesAsync().ConfigureAwait(true);
+                return new OperationDetail { Succeeded = true }; 
+            }
+            catch (Exception ex)
+            {
+                return new OperationDetail { Succeeded = false, Message = ex.Message };
+            }
         }
 
-        public async void DeleteCard(int cardId)
+        public async Task<OperationDetail> DeleteCard(int cardId)
         {
-            Card card = _context.Find<Card>(cardId); // получили объект из базы
-            _context.Remove<Card>(card);
-            await _context.SaveChangesAsync().ConfigureAwait(true);
+            try
+            {
+                Card card = await _context.Cards.FindAsync(cardId);
+                _context.Cards.Remove(card);
+                await _context.SaveChangesAsync().ConfigureAwait(true);
+                return new OperationDetail { Succeeded = true };
+            }
+            catch(Exception ex)
+            {
+                return new OperationDetail { Succeeded = true, Message = ex.Message };
+            }
         }
 
-        public async void EditCard(int cardId, CardDTO cardDTO)
+        public async Task<OperationDetail> EditCard(int cardId, CardDTO cardDTO)
         {
-            Card card = _context.Find<Card>(cardId); // получили объект из базы
-            card.DateBegin = cardDTO.DateBegin;
-            card.DateEnd = cardDTO.DateEnd;
-            _context.Update<Card>(card);
-            await _context.SaveChangesAsync().ConfigureAwait(true);
+            try
+            {
+                Card card = await _context.Cards.FindAsync(cardId);
+                card.DateBegin = cardDTO.DateBegin;
+                card.DateEnd = cardDTO.DateEnd;
+                _context.Cards.Update(card);
+                await _context.SaveChangesAsync().ConfigureAwait(true);
+                return new OperationDetail { Succeeded = true };
+            }
+            catch (Exception ex)
+            {
+                return new OperationDetail { Succeeded = true, Message = ex.Message };
+            }
+        }
+
+        public async Task<(CardDTO, OperationDetail)> GetCardById(int cardId)
+        {
+            try
+            {
+                Card card = await _context.Cards.FindAsync(cardId);
+                return (
+                    new CardDTO
+                    {
+                        DateBegin = card.DateBegin,
+                        DateEnd = card.DateEnd,
+                        UserId = card.UserId
+                    },
+                    new OperationDetail
+                    {
+                        Succeeded = true
+                    }
+                );
+            }
+            catch (Exception ex)
+            {
+                return (null, new OperationDetail { Succeeded = true, Message = ex.Message });
+            }
         }
 
         static Card CreateCardEntityFromDTO(CardDTO cardDTO)
@@ -45,16 +94,10 @@ namespace SimbirsfotStaging10.BLL.Services
             var cardEntity = new Card
             {
                 UserId = cardDTO.UserId,
-                Owner = cardDTO.Owner,
                 DateBegin = cardDTO.DateBegin,
                 DateEnd = cardDTO.DateEnd,
             };
             return cardEntity;
-        }
-
-        private Card GetCardById(int cardId)
-        {
-            return _context.Cards.Find(cardId);
         }
     }
 }

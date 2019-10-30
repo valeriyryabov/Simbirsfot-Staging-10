@@ -19,6 +19,89 @@ namespace SimbirsfotStaging10.Controllers
             _cardservice = cardService;
         }
 
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(CardDTO card)
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _cardservice.AddNewCard(card);
+                if (res.Succeeded)
+                    RedirectToAction("Index", "Home");
+                else
+                    ModelState.AddModelError("", res.Message);
+            }
+            return View(card);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Details(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _cardservice.GetCardById(id);
+                if (res.Item2.Succeeded)
+                    return View(res.Item1);
+                else
+                {
+                    ModelState.AddModelError("", "Карточка с таким Id не найдена.");
+                }
+            }
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Edit()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Edit(int id, CardDTO cardDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _cardservice.EditCard(id, cardDto);
+                if (res.Succeeded)
+                    RedirectToAction("Index", "Home");
+                else
+                    ModelState.AddModelError("", res.Message);
+            }
+
+            return View(cardDto);
+        }
+
+        public IActionResult Delete()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Delete(int id)
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _cardservice.DeleteCard(id);
+                if (res.Succeeded)
+                    RedirectToAction("Index", "Home");
+                else
+                    ModelState.AddModelError("", res.Message);
+            }
+            return View();
+        }
+
+
+
+        // v_1
+        /*
         // GET: Card
         public ActionResult Index()
         {
@@ -105,5 +188,6 @@ namespace SimbirsfotStaging10.Controllers
                 return View();
             }
         }
+        */
     }
 }
