@@ -1,14 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SimbirsfotStaging10.BLL.Interfaces;
+using SimbirsfotStaging10.BLL.Services;
+using SimbirsfotStaging10.DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimbirsfotStaging10
 {
@@ -31,9 +30,16 @@ namespace SimbirsfotStaging10
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
 
-
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-		}
+
+            services.AddDbContextPool<SkiDBContext>(opts => { 
+                opts.UseSqlServer(
+                    "ConnectionStringName",
+                    sqlServerOptions =>
+                    {});  
+            });
+            services.AddTransient<ICardService, CardService>();
+        }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -53,7 +59,7 @@ namespace SimbirsfotStaging10
 			app.UseStaticFiles();
 			app.UseCookiePolicy();
 
-			app.UseMvc();
-		}
+            app.UseMvc(routes => routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}"));
+        }
 	}
 }
