@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.BLL.Services;
+using SimbirsfotStaging10.DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimbirsfotStaging10
 {
@@ -30,6 +32,12 @@ namespace SimbirsfotStaging10
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
+            services.AddDbContextPool<SkiDBContext>(opts => { 
+                opts.UseSqlServer(
+                    "ConnectionStringName",
+                    sqlServerOptions =>
+                    {});  
+            });
             services.AddTransient<ICardService, CardService>();
         }
 
