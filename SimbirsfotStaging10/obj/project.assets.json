@@ -13022,11 +13022,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Simbirsfot-Staging-10-EFCore\\Simbirsfot-Staging-10-EFCore\\SimbirsfotStaging10\\SimbirsfotStaging10.csproj",
+      "projectUniqueName": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Final\\Simbirsfot-Staging-10\\SimbirsfotStaging10\\SimbirsfotStaging10.csproj",
       "projectName": "SimbirsfotStaging10",
-      "projectPath": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Simbirsfot-Staging-10-EFCore\\Simbirsfot-Staging-10-EFCore\\SimbirsfotStaging10\\SimbirsfotStaging10.csproj",
+      "projectPath": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Final\\Simbirsfot-Staging-10\\SimbirsfotStaging10\\SimbirsfotStaging10.csproj",
       "packagesPath": "C:\\Users\\danil\\.nuget\\packages\\",
-      "outputPath": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Simbirsfot-Staging-10-EFCore\\Simbirsfot-Staging-10-EFCore\\SimbirsfotStaging10\\obj\\",
+      "outputPath": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Final\\Simbirsfot-Staging-10\\SimbirsfotStaging10\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -13045,11 +13045,11 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Simbirsfot-Staging-10-EFCore\\Simbirsfot-Staging-10-EFCore\\SimbirsfotStaging10.BLL\\SimbirsfotStaging10.BLL.csproj": {
-              "projectPath": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Simbirsfot-Staging-10-EFCore\\Simbirsfot-Staging-10-EFCore\\SimbirsfotStaging10.BLL\\SimbirsfotStaging10.BLL.csproj"
+            "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Final\\Simbirsfot-Staging-10\\SimbirsfotStaging10.BLL\\SimbirsfotStaging10.BLL.csproj": {
+              "projectPath": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Final\\Simbirsfot-Staging-10\\SimbirsfotStaging10.BLL\\SimbirsfotStaging10.BLL.csproj"
             },
-            "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Simbirsfot-Staging-10-EFCore\\Simbirsfot-Staging-10-EFCore\\SimbirsfotStaging10.DAL\\SimbirsfotStaging10.DAL.csproj": {
-              "projectPath": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Simbirsfot-Staging-10-EFCore\\Simbirsfot-Staging-10-EFCore\\SimbirsfotStaging10.DAL\\SimbirsfotStaging10.DAL.csproj"
+            "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Final\\Simbirsfot-Staging-10\\SimbirsfotStaging10.DAL\\SimbirsfotStaging10.DAL.csproj": {
+              "projectPath": "D:\\My data\\Третий курс III\\C# asp.net\\SimbirSoft стажировка\\My versions\\Production\\Final\\Simbirsfot-Staging-10\\SimbirsfotStaging10.DAL\\SimbirsfotStaging10.DAL.csproj"
             }
           }
         }
