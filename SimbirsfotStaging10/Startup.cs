@@ -32,12 +32,8 @@ namespace SimbirsfotStaging10
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            services.AddDbContextPool<SkiDBContext>(opts => { 
-                opts.UseSqlServer(
-                    "ConnectionStringName",
-                    sqlServerOptions =>
-                    {});  
-            });
+            services.AddDbContextPool<SkiDBContext>(opts => 
+                opts.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<ICardService, CardService>();
         }
 

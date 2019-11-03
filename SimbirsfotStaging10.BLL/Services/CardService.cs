@@ -76,7 +76,7 @@ namespace SimbirsfotStaging10.BLL.Services
                     {
                         DateBegin = card.DateBegin,
                         DateEnd = card.DateEnd,
-                        UserId = card.UserId
+                        //UserId = card.UserId
                     },
                     new OperationDetail
                     {
@@ -94,7 +94,7 @@ namespace SimbirsfotStaging10.BLL.Services
         {
             var cardEntity = new Card
             {
-                UserId = cardDTO.UserId,
+                //UserId = cardDTO.UserId,
                 DateBegin = cardDTO.DateBegin,
                 DateEnd = cardDTO.DateEnd,
             };

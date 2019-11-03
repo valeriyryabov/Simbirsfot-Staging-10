@@ -12,5 +12,6 @@ namespace SimbirsfotStaging10.Controllers
         {
             return View();
         }
+
     }
 }

@@ -22,6 +22,7 @@ namespace SimbirsfotStaging10.Controllers
         [HttpGet]
         public ActionResult Create()
         {
+            //CardDTO cardDTO = new CardDTO();
             return View();
         }
 

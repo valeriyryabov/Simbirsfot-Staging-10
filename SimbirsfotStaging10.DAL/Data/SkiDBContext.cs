@@ -23,7 +23,7 @@ namespace SimbirsfotStaging10.DAL.Data
             SkiDBContext IDesignTimeDbContextFactory<SkiDBContext>.CreateDbContext(string[] args)
             {
                 var optionsBuilder = new DbContextOptionsBuilder();
-                optionsBuilder.UseSqlServer(@"Server = localhost\SQLEXPRESS; Database = test; Trusted_Connection = True;");
+                optionsBuilder.UseSqlServer(@"Server = localhost\SQLEXPRESS; Database = SkiDB; Trusted_Connection = True;");
                 return new SkiDBContext(optionsBuilder.Options);
             }
         }
