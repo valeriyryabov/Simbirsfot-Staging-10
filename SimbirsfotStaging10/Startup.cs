@@ -9,11 +9,18 @@ using Microsoft.EntityFrameworkCore;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.BLL.Services;
 using SimbirsfotStaging10.DAL.Entities;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using SimbirsfotStaging10.Logger;
+
 
 namespace SimbirsfotStaging10
 {
 	public class Startup
 	{
+        private readonly Queue<EventLog> queueForLogs = new Queue<EventLog>();
+
+
 		public Startup(IConfiguration configuration)
 		{
 			Configuration = configuration;
@@ -23,15 +30,14 @@ namespace SimbirsfotStaging10
 
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
-		{
+		{           
 			services.Configure<CookiePolicyOptions>(options =>
 			{
 				// This lambda determines whether user consent for non-essential cookies is needed for a given request.
 				options.CheckConsentNeeded = context => true;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
-
-			
+    
             services.AddDbContextPool<SkiDBContext>( optionsBuilder => 
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IUserService, UserService>();
@@ -39,13 +45,18 @@ namespace SimbirsfotStaging10
                 .AddEntityFrameworkStores<SkiDBContext>();
             services.ConfigureApplicationCookie( opts => opts.LoginPath = "/Account/Login");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddQuartzDbLogging();
 
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-		{
-			if (env.IsDevelopment())
+		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory factory, IApplicationLifetime lifetime)
+		{            
+            factory.AddQueueLog( (cat, lvl) => cat != "Microsoft",
+                queueToSetLogs: queueForLogs);
+            app.StartJob(lifetime,Configuration.GetConnectionString("DefaultConnection"), queueForLogs);
+
+            if (env.IsDevelopment())
 			{
 				app.UseDeveloperExceptionPage();
 			}

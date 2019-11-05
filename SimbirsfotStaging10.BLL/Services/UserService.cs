@@ -1,40 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
-using SimbirsfotStaging10.DAL.Data;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Logging;
+using Quartz;
+
 
 namespace SimbirsfotStaging10.BLL.Services
 {
+
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(UserManager<User> UserManager, SignInManager<User> SignInManager )
+
+        public UserService(UserManager<User> UserManager, SignInManager<User> SignInManager, ILogger<UserService> logger)
         {
             _userManager = UserManager;
             _signInManager  = SignInManager;
+            _logger = logger;
         }
 
 
-        async public Task<IdentityResult> Create(UserRegisterDTO userDTO)=>
-            await _userManager.CreateAsync(CreateUserEntityFromDto(userDTO), userDTO.PasswordHash);
-
-            
-
-        public async Task<SignInResult> SignIn(UserRegisterDTO userDTO) => 
-            await _signInManager.PasswordSignInAsync(userDTO.UserName,userDTO.PasswordHash,false,false);
+        async public Task<IdentityResult> Create(UserRegisterDTO userDTO)
+        {
+            _logger.LogInformation("Creat");
+            return await _userManager.CreateAsync(CreateUserEntityFromDto(userDTO), userDTO.PasswordHash);
+        }
 
 
-        async public Task LogOut() => await _signInManager.SignOutAsync();
+
+
+        public async Task<SignInResult> SignIn(UserRegisterDTO userDTO)
+        {
+            _logger.LogInformation("SignIn");
+            return await _signInManager.PasswordSignInAsync(userDTO.UserName, userDTO.PasswordHash, false, false);
+        }
+
+
+
+        async public Task LogOut()
+        {            
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("SignOut");
+        } 
 
 
         public async Task<SignInResult> SignInByEmailPassword(UserLoginDTO userDTO)
