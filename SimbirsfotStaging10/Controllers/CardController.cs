@@ -13,6 +13,7 @@ namespace SimbirsfotStaging10.Controllers
     public class CardController : Controller
     {
         private readonly ICardService _cardservice;
+        private List<CardDTO> Cards { get; set; }
 
         public CardController(ICardService cardService)
         {
@@ -22,7 +23,6 @@ namespace SimbirsfotStaging10.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            //CardDTO cardDTO = new CardDTO();
             return View();
         }
 
@@ -33,7 +33,7 @@ namespace SimbirsfotStaging10.Controllers
             {
                 var res = await _cardservice.AddNewCard(card);
                 if (res.Succeeded)
-                    RedirectToAction("Index", "Home");
+                    return RedirectToAction("Display");
                 else
                     ModelState.AddModelError("", res.Message);
             }
@@ -99,6 +99,20 @@ namespace SimbirsfotStaging10.Controllers
         }
 
 
+        [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Display()
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _cardservice.DisplayAllCardsFromDB();
+                if (res.Item2.Succeeded)
+                    return View(res.Item1);
+                else
+                    ModelState.AddModelError("", res.Item2.Message);
+            }
+            return View();
+        }
 
     }
 }

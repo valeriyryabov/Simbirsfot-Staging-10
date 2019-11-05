@@ -1,0 +1,17 @@
+﻿@model IEnumerable<SimbirsfotStaging10.BLL.DTO.CardDTO>
+
+<h2 class="text-center> mb-5">Список карт</h2>
+<form method="post" asp-controller="Card" asp-action="Display">
+    <div class="form-group">
+        <table class="table">
+            <tr><td>Дата начала срока</td><td>Дата конца срока</td></tr>
+            @foreach (var item in Model)
+            {
+                <tr><td>@item.DateBegin</td><td>@item.DateEnd</td></tr>
+            }
+        </table>
+    </div>
+</form>
+
+
+

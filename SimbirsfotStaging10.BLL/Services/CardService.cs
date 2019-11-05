@@ -8,12 +8,14 @@ using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
 using System.Threading.Tasks;
 using SimbirsfotStaging10.BLL.Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
     public class CardService : ICardService
     {
         private SkiDBContext _context;
+        private List<CardDTO> Cards { get; set; }
 
         public CardService(SkiDBContext context)
         {
@@ -89,6 +91,31 @@ namespace SimbirsfotStaging10.BLL.Services
                 return (null, new OperationDetail { Succeeded = true, Message = ex.Message });
             }
         }
+
+        public async Task<(List<CardDTO>, OperationDetail)> DisplayAllCardsFromDB()
+        {
+            try
+            {
+                List<Card> CardsList = new List<Card>();
+                CardsList = await _context.Cards.AsNoTracking().ToListAsync();
+                foreach(Card item in CardsList)
+                {
+                    Cards.Add(
+                        new CardDTO
+                        {
+                            DateBegin = item.DateBegin,
+                            DateEnd = item.DateEnd,
+                        }
+                    );
+                }
+                return (Cards, new OperationDetail { Succeeded = true });
+            }
+            catch (Exception ex)
+            {
+                return (null, new OperationDetail { Succeeded = true, Message = ex.Message });
+            }
+        }
+
 
         static Card CreateCardEntityFromDTO(CardDTO cardDTO)
         {
