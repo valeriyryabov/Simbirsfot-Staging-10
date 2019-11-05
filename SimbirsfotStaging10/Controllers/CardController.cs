@@ -74,7 +74,6 @@ namespace SimbirsfotStaging10.Controllers
                 else
                     ModelState.AddModelError("", res.Message);
             }
-
             return View(cardDto);
         }
 
