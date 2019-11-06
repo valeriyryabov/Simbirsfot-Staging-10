@@ -76,9 +76,9 @@ namespace SimbirsfotStaging10.BLL.Services
                 return (
                     new CardDTO
                     {
+                        Id = card.Id,
                         DateBegin = card.DateBegin,
                         DateEnd = card.DateEnd,
-                        //UserId = card.UserId
                     },
                     new OperationDetail
                     {
@@ -92,17 +92,19 @@ namespace SimbirsfotStaging10.BLL.Services
             }
         }
 
-        public async Task<(List<CardDTO>, OperationDetail)> DisplayAllCardsFromDB()
+        public async Task<(List<CardDTO>, OperationDetail)> GetAllCardsFromDB()
         {
             try
             {
                 List<Card> CardsList = new List<Card>();
+                Cards = new List<CardDTO>(); 
                 CardsList = await _context.Cards.AsNoTracking().ToListAsync();
                 foreach(Card item in CardsList)
                 {
                     Cards.Add(
                         new CardDTO
                         {
+                            Id = item.Id,
                             DateBegin = item.DateBegin,
                             DateEnd = item.DateEnd,
                         }
@@ -121,7 +123,7 @@ namespace SimbirsfotStaging10.BLL.Services
         {
             var cardEntity = new Card
             {
-                //UserId = cardDTO.UserId,
+                Id = cardDTO.Id,
                 DateBegin = cardDTO.DateBegin,
                 DateEnd = cardDTO.DateEnd,
             };

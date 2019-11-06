@@ -8,15 +8,15 @@ namespace SimbirsfotStaging10.BLL.DTO
 {
     public class CardDTO
     {
-        /*
         [Required]
-        public int UserId { get; set; }
-        */
+        public int Id { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime DateBegin { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime DateEnd { get; set; }
     }
 }

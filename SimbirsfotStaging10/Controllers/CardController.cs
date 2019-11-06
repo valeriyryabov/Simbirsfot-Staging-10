@@ -33,7 +33,7 @@ namespace SimbirsfotStaging10.Controllers
             {
                 var res = await _cardservice.AddNewCard(card);
                 if (res.Succeeded)
-                    return RedirectToAction("Display");
+                    return RedirectToAction("List");
                 else
                     ModelState.AddModelError("", res.Message);
             }
@@ -90,21 +90,19 @@ namespace SimbirsfotStaging10.Controllers
             {
                 var res = await _cardservice.DeleteCard(id);
                 if (res.Succeeded)
-                    RedirectToAction("Index", "Home");
+                    return RedirectToAction("List");
                 else
                     ModelState.AddModelError("", res.Message);
             }
             return View();
         }
 
-
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Display()
+        [HttpGet]
+        public async Task<IActionResult> List()
         {
             if (ModelState.IsValid)
             {
-                var res = await _cardservice.DisplayAllCardsFromDB();
+                var res = await _cardservice.GetAllCardsFromDB();
                 if (res.Item2.Succeeded)
                     return View(res.Item1);
                 else

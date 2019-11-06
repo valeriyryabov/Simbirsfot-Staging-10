@@ -15,6 +15,6 @@ namespace SimbirsfotStaging10.BLL.Interfaces
         Task<OperationDetail> DeleteCard(int cardId);
         Task<OperationDetail> EditCard(int cardId, CardDTO cardDTO);
         Task<(CardDTO, OperationDetail)> GetCardById(int cardId);
-        Task<(List<CardDTO>, OperationDetail)> DisplayAllCardsFromDB();
+        Task<(List<CardDTO>, OperationDetail)> GetAllCardsFromDB();
     }
 }
