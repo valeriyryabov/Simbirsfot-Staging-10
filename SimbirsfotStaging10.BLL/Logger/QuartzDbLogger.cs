@@ -50,7 +50,8 @@ namespace SimbirsfotStaging10.Logger
         {
             var scheduler = app.ApplicationServices.GetService<IScheduler>();
             ScheduleDbLoggingByTimer(scheduler, conString, queueWithLogs);
-            lifetime.ApplicationStarted.Register(() => scheduler.Start());        
+            lifetime.ApplicationStarted.Register(() => scheduler.Start());
+            lifetime.ApplicationStopped.Register(() => scheduler.Shutdown());
         }
     }
 }
