@@ -36,7 +36,7 @@ namespace SimbirsfotStaging10.Logger
                         QueueToSetLogs.Enqueue(
                           new EventLog
                           {
-                                Message = formatter(state, exception),
+                                Message = $"{logLevel.ToString()} - {eventId.Id} - {_category} - {formatter(state, exception)}",
                                 Date = DateTime.Now,
                                 EventType = eventId.Id
                           });

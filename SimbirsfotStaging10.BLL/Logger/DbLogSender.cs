@@ -15,15 +15,15 @@ namespace SimbirsfotStaging10.Logger
     {
         readonly ILogger logger; 
 
-        public DbLogSender(ILogger logger)
+        public DbLogSender(ILoggerFactory loggerFactory)
         {
-            this.logger = logger;
-            logger.LogCritical("Job registered");
+            logger = loggerFactory.CreateLogger(typeof(DbLogSender));
+            logger.LogInformation("Job is created.");
         }
 
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
-            return Task.Run( ()=> ExecuteJob(context));
+            await ExecuteJob(context);
         }
 
         async public Task ExecuteJob(IJobExecutionContext context)
@@ -32,7 +32,6 @@ namespace SimbirsfotStaging10.Logger
             {
                 var queueWithLogs = context.JobDetail.JobDataMap["queue"] as Queue<EventLog>;
                 var conString = context.JobDetail.JobDataMap["dbConnectionString"] as string;
-                logger.LogCritical("EXECUTE");
                 if (queueWithLogs != null && queueWithLogs.Count != 0 && conString != null)
                 {
                     var dbOptBuilder = new DbContextOptionsBuilder();
@@ -54,7 +53,7 @@ namespace SimbirsfotStaging10.Logger
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Произшла ошибка в работе бд логгера.");
+                logger.LogError(ex, "Error occured on db logging.");
             
             }           
         }

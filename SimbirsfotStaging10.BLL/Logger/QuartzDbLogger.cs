@@ -35,7 +35,7 @@ namespace SimbirsfotStaging10.Logger
         public static void AddQuartzDbLogging(this IServiceCollection services)
         {
             services.AddSingleton<IJobFactory, QuartzJobFactory>();
-            services.AddSingleton<IJob, DbLogSender>();
+            services.AddSingleton<DbLogSender>();
             services.AddSingleton((provider) =>
             {
                 var scheduler = new StdSchedulerFactory().GetScheduler().Result;
@@ -51,7 +51,8 @@ namespace SimbirsfotStaging10.Logger
             var scheduler = app.ApplicationServices.GetService<IScheduler>();
             ScheduleDbLoggingByTimer(scheduler, conString, queueWithLogs);
             lifetime.ApplicationStarted.Register(() => scheduler.Start());
-            lifetime.ApplicationStarted.Register(() => scheduler.Shutdown());
+
+            
         
         }
     }
