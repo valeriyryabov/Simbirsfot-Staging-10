@@ -57,9 +57,18 @@ namespace SimbirsfotStaging10.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit()
+        public async Task<ActionResult> Edit(int? id)
         {
-            return View();
+            CardDTO cardDTO;
+            if (!id.HasValue)
+            {
+                cardDTO = new CardDTO();
+            }
+            else
+            {
+                cardDTO = (await _cardservice.GetCardById(id.Value)).Item1;
+            }
+            return View(cardDTO);
         }
 
         [HttpPost]
@@ -70,19 +79,29 @@ namespace SimbirsfotStaging10.Controllers
             {
                 var res = await _cardservice.EditCard(id, cardDto);
                 if (res.Succeeded)
-                    RedirectToAction("Index", "Home");
+                    return RedirectToAction("List");
                 else
                     ModelState.AddModelError("", res.Message);
             }
             return View(cardDto);
         }
 
-        public IActionResult Delete()
+        [HttpGet]
+        public async Task<ActionResult> Delete(int? id)
         {
-            return View();
+            CardDTO cardDTO;
+            if (!id.HasValue)
+            {
+                cardDTO = new CardDTO();
+            }
+            else
+            {
+                cardDTO = (await _cardservice.GetCardById(id.Value)).Item1;
+            }
+            return View(cardDTO);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id)
         {
@@ -99,6 +118,20 @@ namespace SimbirsfotStaging10.Controllers
 
         [HttpGet]
         public async Task<IActionResult> List()
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _cardservice.GetAllCardsFromDB();
+                if (res.Item2.Succeeded)
+                    return View(res.Item1);
+                else
+                    ModelState.AddModelError("", res.Item2.Message);
+            }
+            return View();
+        }
+
+        [HttpPost, ActionName("List")]
+        public async Task<IActionResult> ListConfirmed()
         {
             if (ModelState.IsValid)
             {

@@ -1,2 +1,22 @@
 ﻿@model SimbirsfotStaging10.BLL.DTO.CardDTO
 
+<h2>Удаление карты</h2>
+<form method="post" asp-controller="Card">
+    <div asp-validation-summary="ModelOnly"></div>
+    <h4 asp-for="Id">Карта № @Model.Id</h4><br />
+    <div class="form-group">
+        <label asp-for="DateBegin">Дата начала срока использования</label><br />
+        <label asp-for="DateBegin">@Model.DateBegin.ToString()</label>
+    </div>
+    <div class="form-group">
+        <label asp-for="DateEnd">Дата конца срока использования</label><br />
+        <label asp-for="DateBegin">@Model.DateEnd.ToString()</label><br />
+    </div>
+    <div class="form-group">
+        <label><b>Вы действительно хотите удалить карту?</b></label>
+        <div>
+            <button asp-action="Delete" type="submit" class="btn btn-primary">Удалить карту</button>
+            <a asp-action="List" class="btn btn-light">Отмена</a>
+        </div>
+    </div>
+</form>
