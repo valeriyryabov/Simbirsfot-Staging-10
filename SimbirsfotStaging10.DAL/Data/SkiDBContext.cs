@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using SimbirsfotStaging10.DAL.Entities;
+//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace SimbirsfotStaging10.DAL.Data
 {
-	public class SkiDBContext : DbContext
+	public class SkiDBContext : DbContext // 
     {
         public SkiDBContext(DbContextOptions options) : base(options) { }
 
@@ -16,6 +17,7 @@ namespace SimbirsfotStaging10.DAL.Data
         public DbSet<Platform> Platforms { get; set; }
         public DbSet<UserEquipmentItem> UserEquipmentItemSet { get; set; }
         public DbSet<Equipment> EquipmentSet { get; set; }
+
 
 
         public class EFDBContextFactory : IDesignTimeDbContextFactory<SkiDBContext>

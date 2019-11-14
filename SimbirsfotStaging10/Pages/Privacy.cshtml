@@ -1,8 +1,19 @@
-﻿@page
-@model PrivacyModel
+﻿@*page*@
+@using SimbirsfotStaging10.DAL.Entities
+@model IEnumerable<Platform>
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewBag.Title = "Склоны раз";
 }
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewBag.Title</h1>
+<h2> Все Склоны</h2>
+@{
+    foreach (var platfoms in Model)
+    {
+        <div>
+            <h2>Вид склона: @platfoms.Name</h2>
+        </div>
+    }
+}
 
-<p>Use this page to detail your site's privacy policy.</p>
+
+<p>Тут будут склоны "Вася закачаешься!"</p>

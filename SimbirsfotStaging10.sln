@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.902
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimbirsfotStaging10", "SimbirsfotStaging10\SimbirsfotStaging10.csproj", "{71E45200-B3FB-417B-AB6D-2DE93CCB1B1D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimbirsfotStaging10.DAL", "SimbirsfotStaging10.DAL\SimbirsfotStaging10.DAL.csproj", "{94D2C4EC-7ACE-4A4B-99B6-592300C98EFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimbirsfotStaging10.BLL", "SimbirsfotStaging10.BLL\SimbirsfotStaging10.BLL.csproj", "{AA24EA50-89F8-4C50-AFB4-95A60C228445}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimbirsfotStaging10.BLL", "SimbirsfotStaging10.BLL\SimbirsfotStaging10.BLL.csproj", "{AA24EA50-89F8-4C50-AFB4-95A60C228445}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
