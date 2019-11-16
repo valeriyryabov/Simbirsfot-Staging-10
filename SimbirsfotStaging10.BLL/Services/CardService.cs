@@ -26,8 +26,8 @@ namespace SimbirsfotStaging10.BLL.Services
         {
             try
             {
-                await _context.Cards.AddAsync(CreateCardEntityFromDTO(cardDTO)).ConfigureAwait(true);
-                await _context.SaveChangesAsync().ConfigureAwait(true);
+                await _context.Cards.AddAsync(CreateCardEntityFromDTO(cardDTO));
+                await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true }; 
             }
             catch (Exception ex)
@@ -42,7 +42,7 @@ namespace SimbirsfotStaging10.BLL.Services
             {
                 Card card = await _context.Cards.FindAsync(cardId);
                 _context.Cards.Remove(card);
-                await _context.SaveChangesAsync().ConfigureAwait(true);
+                await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true };
             }
             catch(Exception ex)
@@ -59,7 +59,7 @@ namespace SimbirsfotStaging10.BLL.Services
                 card.DateBegin = cardDTO.DateBegin;
                 card.DateEnd = cardDTO.DateEnd;
                 _context.Cards.Update(card);
-                await _context.SaveChangesAsync().ConfigureAwait(true);
+                await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true };
             }
             catch (Exception ex)
