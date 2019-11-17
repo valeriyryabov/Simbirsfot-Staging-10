@@ -13,12 +13,17 @@ namespace SimbirsfotStaging10.Logger
 {
     public class DbLogSender : IJob
     {
-        readonly ILogger logger; 
+        readonly ILogger logger;
+        readonly Queue<EventLog> queueWithLogs;
+        readonly string conString;
 
-        public DbLogSender(ILoggerFactory loggerFactory)
+        public DbLogSender(ILoggerFactory loggerFactory, IScheduler scheduler)
         {
             logger = loggerFactory.CreateLogger(typeof(DbLogSender));
             logger.LogInformation("Job is created.");
+            var jobDetail = scheduler.GetJobDetail(JobKey.Create("FromQueueIntoDb", "DbLogging")).Result;
+            queueWithLogs = jobDetail.JobDataMap["queue"] as Queue<EventLog>;
+            conString = jobDetail.JobDataMap["dbConnectionString"] as string;
         }
 
         public async Task Execute(IJobExecutionContext context)
@@ -30,8 +35,6 @@ namespace SimbirsfotStaging10.Logger
         {
             try
             {
-                var queueWithLogs = context.JobDetail.JobDataMap["queue"] as Queue<EventLog>;
-                var conString = context.JobDetail.JobDataMap["dbConnectionString"] as string;
                 if (queueWithLogs != null && queueWithLogs.Count != 0 && conString != null)
                 {
                     var dbOptBuilder = new DbContextOptionsBuilder();

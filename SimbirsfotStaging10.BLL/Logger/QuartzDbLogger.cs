@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Quartz.Impl;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Quartz.Spi;
 
 namespace SimbirsfotStaging10.Logger
@@ -12,19 +13,21 @@ namespace SimbirsfotStaging10.Logger
     public static class QuartzDbLogger
     {
 
-        public static async void ScheduleDbLoggingByTimer(IScheduler scheduler,string conString, Queue<EventLog> queueWithLogs)
+        public static async void ScheduleDbLoggingByTimer(IScheduler scheduler,IConfiguration conf, Queue<EventLog> queueWithLogs)
         {
             var jobDetail = JobBuilder.Create<DbLogSender>()
                 .WithIdentity("FromQueueIntoDb", "DbLogging")
                 .Build();
+
             jobDetail.JobDataMap.Add("queue", queueWithLogs);
-            jobDetail.JobDataMap.Add("dbConnectionString", conString);
+            jobDetail.JobDataMap.Add("dbConnectionString", conf.GetConnectionString("DefaultConnection"));
+
             ITrigger trigger = TriggerBuilder.Create()
                 .WithIdentity("FromQueueIntoDb", "DbLogging")
                 .StartNow()
                 .WithSimpleSchedule((sch) =>
                 {
-                    sch.WithIntervalInSeconds(10);
+                    sch.WithIntervalInSeconds(conf.GetValue<int>("DbLoggingIntervalSeconds"));
                     sch.RepeatForever();
                 })
                 .Build();
@@ -45,11 +48,11 @@ namespace SimbirsfotStaging10.Logger
         }
 
 
-        public static void StartJob(this IApplicationBuilder app, IApplicationLifetime lifetime, string conString,
+        public static void StartJob(this IApplicationBuilder app, IApplicationLifetime lifetime, IConfiguration conf,
             Queue<EventLog> queueWithLogs)
         {
             var scheduler = app.ApplicationServices.GetService<IScheduler>();
-            ScheduleDbLoggingByTimer(scheduler, conString, queueWithLogs);
+            ScheduleDbLoggingByTimer(scheduler, conf, queueWithLogs);
             lifetime.ApplicationStarted.Register(() => scheduler.Start());
             lifetime.ApplicationStopped.Register(() => scheduler.Shutdown());
         }

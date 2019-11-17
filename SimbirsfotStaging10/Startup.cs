@@ -54,7 +54,7 @@ namespace SimbirsfotStaging10
 		{            
             factory.AddQueueLog( (cat, lvl) => cat.StartsWith("SimbirsfotStaging10"),
                 queueToSetLogs: queueForLogs);
-            app.StartJob(lifetime,Configuration.GetConnectionString("DefaultConnection"), queueForLogs);
+            app.StartJob(lifetime,Configuration, queueForLogs);
 
             if (env.IsDevelopment())
 			{

@@ -7,7 +7,7 @@ namespace SimbirsfotStaging10.Logger
 {
     public enum EventType
     { 
-        RegistrationSucces,
+        RegistrationSucces=1,
         RegistrationFail,
         SignInSucces,
         SignInFail,
