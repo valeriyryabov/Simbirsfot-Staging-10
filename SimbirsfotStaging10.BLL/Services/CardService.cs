@@ -22,11 +22,11 @@ namespace SimbirsfotStaging10.BLL.Services
             _context = context;
         }
 
-        public async Task<OperationDetail> AddNewCard(CardDTO cardDTO)
+        public async Task<OperationDetail> AddNew(CardDTO cardDTO)
         {
             try
             {
-                await _context.Cards.AddAsync(CreateCardEntityFromDTO(cardDTO));
+                await _context.Cards.AddAsync(CreateEntityFromDTO(cardDTO));
                 await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true }; 
             }
@@ -36,7 +36,7 @@ namespace SimbirsfotStaging10.BLL.Services
             }
         }
 
-        public async Task<OperationDetail> DeleteCard(int cardId)
+        public async Task<OperationDetail> Delete(int cardId)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace SimbirsfotStaging10.BLL.Services
             }
         }
 
-        public async Task<OperationDetail> EditCard(int cardId, CardDTO cardDTO)
+        public async Task<OperationDetail> Edit(int cardId, CardDTO cardDTO)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace SimbirsfotStaging10.BLL.Services
             }
         }
 
-        public async Task<(CardDTO, OperationDetail)> GetCardById(int cardId)
+        public async Task<(CardDTO, OperationDetail)> GetById(int cardId)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace SimbirsfotStaging10.BLL.Services
             }
         }
 
-        public async Task<(List<CardDTO>, OperationDetail)> GetAllCardsFromDB()
+        public async Task<(List<CardDTO>, OperationDetail)> GetAllFromDB()
         {
             try
             {
@@ -119,7 +119,7 @@ namespace SimbirsfotStaging10.BLL.Services
         }
 
 
-        static Card CreateCardEntityFromDTO(CardDTO cardDTO)
+        static Card CreateEntityFromDTO(CardDTO cardDTO)
         {
             var cardEntity = new Card
             {

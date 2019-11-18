@@ -31,7 +31,7 @@ namespace SimbirsfotStaging10.Controllers
         {
             if (ModelState.IsValid)
             {
-                var res = await _cardservice.AddNewCard(card);
+                var res = await _cardservice.AddNew(card);
                 if (res.Succeeded)
                     return RedirectToAction("List");
                 else
@@ -45,7 +45,7 @@ namespace SimbirsfotStaging10.Controllers
         {
             if (ModelState.IsValid)
             {
-                var res = await _cardservice.GetCardById(id);
+                var res = await _cardservice.GetById(id);
                 if (res.Item2.Succeeded)
                     return View(res.Item1);
                 else
@@ -66,7 +66,7 @@ namespace SimbirsfotStaging10.Controllers
             }
             else
             {
-                cardDTO = (await _cardservice.GetCardById(id.Value)).Item1;
+                cardDTO = (await _cardservice.GetById(id.Value)).Item1;
             }
             return View(cardDTO);
         }
@@ -77,7 +77,7 @@ namespace SimbirsfotStaging10.Controllers
         {
             if (ModelState.IsValid)
             {
-                var res = await _cardservice.EditCard(id, cardDto);
+                var res = await _cardservice.Edit(id, cardDto);
                 if (res.Succeeded)
                     return RedirectToAction("List");
                 else
@@ -96,7 +96,7 @@ namespace SimbirsfotStaging10.Controllers
             }
             else
             {
-                cardDTO = (await _cardservice.GetCardById(id.Value)).Item1;
+                cardDTO = (await _cardservice.GetById(id.Value)).Item1;
             }
             return View(cardDTO);
         }
@@ -107,7 +107,7 @@ namespace SimbirsfotStaging10.Controllers
         {
             if (ModelState.IsValid)
             {
-                var res = await _cardservice.DeleteCard(id);
+                var res = await _cardservice.Delete(id);
                 if (res.Succeeded)
                     return RedirectToAction("List");
                 else
@@ -121,7 +121,7 @@ namespace SimbirsfotStaging10.Controllers
         {
             if (ModelState.IsValid)
             {
-                var res = await _cardservice.GetAllCardsFromDB();
+                var res = await _cardservice.GetAllFromDB();
                 if (res.Item2.Succeeded)
                     return View(res.Item1);
                 else
@@ -135,7 +135,7 @@ namespace SimbirsfotStaging10.Controllers
         {
             if (ModelState.IsValid)
             {
-                var res = await _cardservice.GetAllCardsFromDB();
+                var res = await _cardservice.GetAllFromDB();
                 if (res.Item2.Succeeded)
                     return View(res.Item1);
                 else

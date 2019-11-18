@@ -11,10 +11,10 @@ namespace SimbirsfotStaging10.BLL.Interfaces
 {
     public interface ICardService
     {
-        Task<OperationDetail> AddNewCard(CardDTO DTO);
-        Task<OperationDetail> DeleteCard(int cardId);
-        Task<OperationDetail> EditCard(int cardId, CardDTO DTO);
-        Task<(CardDTO, OperationDetail)> GetCardById(int cardId);
-        Task<(List<CardDTO>, OperationDetail)> GetAllCardsFromDB();
+        Task<OperationDetail> AddNew(CardDTO DTO);
+        Task<OperationDetail> Delete(int cardId);
+        Task<OperationDetail> Edit(int cardId, CardDTO DTO);
+        Task<(CardDTO, OperationDetail)> GetById(int cardId);
+        Task<(List<CardDTO>, OperationDetail)> GetAllFromDB();
     }
 }
