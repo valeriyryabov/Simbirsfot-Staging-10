@@ -22,11 +22,11 @@ namespace SimbirsfotStaging10.BLL.Services
             _context = context;
         }
 
-        public async Task<OperationDetail> AddNew(CardDTO cardDTO)
+        public async Task<OperationDetail> AddNew(CardDTO dTO)
         {
             try
             {
-                await _context.Cards.AddAsync(CreateEntityFromDTO(cardDTO));
+                await _context.Cards.AddAsync(CreateEntityFromDTO(dTO));
                 await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true }; 
             }
@@ -36,43 +36,43 @@ namespace SimbirsfotStaging10.BLL.Services
             }
         }
 
-        public async Task<OperationDetail> Delete(int cardId)
+        public async Task<OperationDetail> Delete(int id)
         {
             try
             {
-                Card card = await _context.Cards.FindAsync(cardId);
+                Card card = await _context.Cards.FindAsync(id);
                 _context.Cards.Remove(card);
                 await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true };
             }
             catch(Exception ex)
             {
-                return new OperationDetail { Succeeded = true, Message = ex.Message };
+                return new OperationDetail { Succeeded = false, Message = ex.Message };
             }
         }
 
-        public async Task<OperationDetail> Edit(int cardId, CardDTO cardDTO)
+        public async Task<OperationDetail> Edit(int id, CardDTO dTO)
         {
             try
             {
-                Card card = await _context.Cards.FindAsync(cardId);
-                card.DateBegin = cardDTO.DateBegin;
-                card.DateEnd = cardDTO.DateEnd;
+                Card card = await _context.Cards.FindAsync(id);
+                card.DateBegin = dTO.DateBegin;
+                card.DateEnd = dTO.DateEnd;
                 _context.Cards.Update(card);
                 await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true };
             }
             catch (Exception ex)
             {
-                return new OperationDetail { Succeeded = true, Message = ex.Message };
+                return new OperationDetail { Succeeded = false, Message = ex.Message };
             }
         }
 
-        public async Task<(CardDTO, OperationDetail)> GetById(int cardId)
+        public async Task<(CardDTO, OperationDetail)> GetById(int id)
         {
             try
             {
-                Card card = await _context.Cards.FindAsync(cardId);
+                Card card = await _context.Cards.FindAsync(id);
                 return (
                     new CardDTO
                     {
@@ -88,7 +88,7 @@ namespace SimbirsfotStaging10.BLL.Services
             }
             catch (Exception ex)
             {
-                return (null, new OperationDetail { Succeeded = true, Message = ex.Message });
+                return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
             }
         }
 
@@ -114,20 +114,20 @@ namespace SimbirsfotStaging10.BLL.Services
             }
             catch (Exception ex)
             {
-                return (null, new OperationDetail { Succeeded = true, Message = ex.Message });
+                return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
             }
         }
 
 
-        static Card CreateEntityFromDTO(CardDTO cardDTO)
+        static Card CreateEntityFromDTO(CardDTO dTO)
         {
-            var cardEntity = new Card
+            var entity = new Card
             {
-                Id = cardDTO.Id,
-                DateBegin = cardDTO.DateBegin,
-                DateEnd = cardDTO.DateEnd,
+                Id = dTO.Id,
+                DateBegin = dTO.DateBegin,
+                DateEnd = dTO.DateEnd,
             };
-            return cardEntity;
+            return entity;
         }
     }
 }
