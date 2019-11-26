@@ -58,11 +58,16 @@ namespace SimbirsfotStaging10.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(UserLoginDTO userDTO)
         {
-            var res = await _userService.SignInByEmailPassword(userDTO);
-            if (res.Succeeded)
-                return RedirectToAction("Index", "Home");
-            else
-                ModelState.AddModelError("", "Неверный логин/пароль");
+            if (ModelState.IsValid)
+            {
+                var res = await _userService.SignInByEmailPassword(userDTO);
+                if (res.Succeeded)
+                    return RedirectToAction("Index", "Home");
+                else
+                    ModelState.AddModelError("", "Неверный логин/пароль");
+                return View(userDTO);
+            }
+
             return View(userDTO);
         }
 
