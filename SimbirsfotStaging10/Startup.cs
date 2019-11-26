@@ -35,6 +35,7 @@ namespace SimbirsfotStaging10
             services.AddDbContextPool<SkiDBContext>( optionsBuilder => 
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<ICardService, CardService>();
             services.AddIdentity<User, CustomRole>(opts => opts.SetCustomIdentityOptions())
                 .AddEntityFrameworkStores<SkiDBContext>();
             services.ConfigureApplicationCookie( opts => opts.LoginPath = "/Account/Login");
