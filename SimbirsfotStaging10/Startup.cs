@@ -11,6 +11,12 @@ using SimbirsfotStaging10.BLL.Services;
 using SimbirsfotStaging10.DAL.Entities;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using SimbirsfotStaging10.BLL.VK;
+using SimbirsfotStaging10.Controllers;
 using SimbirsfotStaging10.Logger;
 
 
@@ -47,7 +53,13 @@ namespace SimbirsfotStaging10
             services.ConfigureApplicationCookie( opts => opts.LoginPath = "/Account/Login");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddQuartzDbLogging();
-
+            services.AddAuthentication(opts =>
+            {
+                opts.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;
+                opts.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
+                opts.DefaultSignOutScheme = IdentityConstants.ApplicationScheme;
+            });
+            services.AddSingleton<VkAuth>();
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

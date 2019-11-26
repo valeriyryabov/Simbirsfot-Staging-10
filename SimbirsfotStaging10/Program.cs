@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Logging;
 using SimbirsfotStaging10.Logger;
+using Microsoft.Extensions.Logging;
 
 namespace SimbirsfotStaging10
 {

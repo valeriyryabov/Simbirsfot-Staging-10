@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.BLL.DTO;
+using Microsoft.AspNetCore.Authentication;
+using SimbirsfotStaging10.BLL.VK;
+
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,11 +13,12 @@ namespace SimbirsfotStaging10.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly VkAuth vkAuth;
 
-
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, VkAuth vkAuth)
         {
             _userService = userService;
+            this.vkAuth = vkAuth;
         }
 
 
@@ -67,14 +68,24 @@ namespace SimbirsfotStaging10.Controllers
                     ModelState.AddModelError("", "Неверный логин/пароль");
                 return View(userDTO);
             }
-
             return View(userDTO);
         }
 
+        [HttpGet]
+        public IActionResult SignInVk() => Redirect(vkAuth.UrlGetCode);
+
+
+        [HttpGet]
+        public async Task<IActionResult> Authorize(string code)
+        {
+            //api вернул, если вдруг какие данные пользователя захотим получить в контроллере
+            var vkUserApi = await vkAuth.Authorize(code, HttpContext);
+            return RedirectToAction("Index", "Home");
+        }
 
         public async Task<IActionResult> LogOut()
         {
-            await _userService.LogOut();
+            await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
     }
