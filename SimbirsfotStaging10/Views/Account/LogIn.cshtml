@@ -1,27 +1,40 @@
 ﻿@model SimbirsfotStaging10.BLL.DTO.UserLoginDTO
 @{
-    ViewData["Title"] = "Вход";
+	ViewData["Title"] = "Вход";
 }
 
-    <form method="post" asp-controller="Account" asp-action="LogIn">
-        <div asp-validation-summary="ModelOnly"></div>
-        <div class="form-group">
-            <label asp-for="EmailOrUserName">Email/Логин</label><br />
-            <input asp-for="EmailOrUserName" class="form-control col-3" placeholder="Email/Login" />
-            <span asp-validation-for="EmailOrUserName"></span>
-        </div>
-        <div class="form-group">
-            <label asp-for="Password">Пароль</label><br />
-            <input asp-for="Password" class="form-control col-3" placeholder="Введите пароль" />
-            <span asp-validation-for="Password"></span>
-        </div>
-        <div class="form-check mb-3">
-            <input type="checkbox" class="form-check-input" asp-for="RememberMe" id="checkRemberMe" value="true">
-            <input asp-for="RememberMe" type="hidden" value="false">
-            <label class="form-check-label" for="checkRemberMe">Запомнить</label>
-        </div>
-        <div>
-            <button type="submit" class="btn btn-primary">Войти</button>
-        </div>
-    </form>
+
+	<form method="post" asp-controller="Account" asp-action="LogIn">
+		<div asp-validation-summary="ModelOnly"></div>
+		<div>
+			<div class="form-check-label text-white mb-4 font-weight-bold">
+				<div class="mb-3">
+					Через соц. сети: 
+				</div>
+				<div class="row">
+					<a class="btn-primary btn" asp-controller="Account" asp-action="SignInVk">Vk</a>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label asp-for="EmailOrUserName" class="text-white mb-4 font-weight-bold">Email/Логин</label><br />
+			<input asp-for="EmailOrUserName" class="form-control col-3" placeholder="Email/Login" />
+			<span asp-validation-for="EmailOrUserName"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="Password" class="text-white mb-4 font-weight-bold">Пароль</label><br />
+			<input asp-for="Password" class="form-control col-3" placeholder="Введите пароль" />
+			<span asp-validation-for="Password"></span>
+		</div>
+		<div class="form-check mb-3">
+			<input type="checkbox" class="custom-checkbox" asp-for="RememberMe" id="checkRemberMe" value="true">
+			<input asp-for="RememberMe" type="hidden" value="false">
+			<label class="form-check-label text-white mb-4 font-weight-bold" for="checkRemberMe">Запомнить</label>
+		</div>
+		<div>
+			<button type="submit" class="btn btn-primary">Войти</button>
+		</div>
+	</form>
+
+
 

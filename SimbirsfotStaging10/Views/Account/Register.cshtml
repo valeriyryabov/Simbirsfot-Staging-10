@@ -3,31 +3,34 @@
 @{
     ViewData["Title"] = "Регистрация";
 }
-
-<h2 class="text-center mb-5">Регистрация нового пользователя</h2>
+<div class="text-center">
+	<h2 class="text-white mb-4 font-weight-bold">Регистрация нового пользователя</h2>
+</div>
+<div>
 <form method="post" asp-controller="Account" asp-action="Register">
-    <div asp-validation-summary="ModelOnly"  ></div>
-    <div class="form-group">
-        <label asp-for="Name">Имя</label><br />
-        <input asp-for="Name" class="form-control col-3" placeholder="Имя пользователя"/>
-        <span asp-validation-for="Name"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="UserName">Логин</label><br />
-        <input asp-for="UserName" class="form-control col-3" placeholder="Логин"/>
-        <span asp-validation-for="UserName"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Email">Email</label><br />
-        <input asp-for="Email" type="email" class="form-control col-3" placeholder="Введите email"/>
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PasswordHash">Пароль</label><br />
-        <input asp-for="PasswordHash" class="form-control col-3" placeholder="Пароль"/>
-        <span asp-validation-for="PasswordHash"></span>
-    </div>
-    <div>
-        <button type="submit" class="btn btn-primary">Регистрация</button>
-    </div>
+	<div asp-validation-summary="ModelOnly"  ></div>
+	<div class="form-group">
+		<label asp-for="Name" class="form-check-label text-white mb-4 font-weight-bold">Имя</label><br />
+		<input asp-for="Name" class="form-control col-3" placeholder="Имя пользователя"/>
+		<span asp-validation-for="Name"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="UserName" class="form-check-label text-white mb-4 font-weight-bold">Логин</label><br />
+		<input asp-for="UserName" class="form-control col-3" placeholder="Логин"/>
+		<span asp-validation-for="UserName"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Email" class="form-check-label text-white mb-4 font-weight-bold">Email</label><br />
+		<input asp-for="Email" type="email" class="form-control col-3" placeholder="Введите email"/>
+		<span asp-validation-for="Email"></span>
+	</div>
+	<div class="form-group">
+		<label asp-for="PasswordHash" class="form-check-label text-white mb-4 font-weight-bold">Пароль</label><br />
+		<input asp-for="PasswordHash" class="form-control col-3" placeholder="Пароль"/>
+		<span asp-validation-for="PasswordHash"></span>
+	</div>
+	<div class="mt-4">
+		<button type="submit" class="btn btn-primary">Регистрация</button>
+	</div>
 </form>
+</div>
