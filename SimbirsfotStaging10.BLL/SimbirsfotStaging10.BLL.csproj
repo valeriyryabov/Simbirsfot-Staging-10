@@ -10,5 +10,4 @@
   <ItemGroup>
     <ProjectReference Include="..\SimbirsfotStaging10.DAL\SimbirsfotStaging10.DAL.csproj" />
   </ItemGroup>
-  
-</Project>
+  </Project>

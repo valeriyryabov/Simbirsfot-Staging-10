@@ -1,16 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using SimbirsfotStaging10.DAL.Entities;
-//using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace SimbirsfotStaging10.DAL.Data
 {
-	public class SkiDBContext : DbContext // 
+	public class SkiDBContext : IdentityDbContext<User,CustomRole,int>
     {
         public SkiDBContext(DbContextOptions options) : base(options) { }
 
-
-        public DbSet<User> Users { get; set; }
         public DbSet<Card> Cards { get; set; }
         public DbSet<CardPlatformItem> CardPlatformItemSet { get; set; }
         public DbSet<EventLog> EventLogSet { get; set; }
@@ -18,6 +16,13 @@ namespace SimbirsfotStaging10.DAL.Data
         public DbSet<UserEquipmentItem> UserEquipmentItemSet { get; set; }
         public DbSet<Equipment> EquipmentSet { get; set; }
 
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>()
+                .HasAlternateKey(u => u.Email);
+        }
 
 
         public class EFDBContextFactory : IDesignTimeDbContextFactory<SkiDBContext>
