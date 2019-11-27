@@ -2,7 +2,7 @@
 
 namespace SimbirsfotStaging10.BLL.DTO
 {
-    public class VkUserDto
+    public class AuthServUserDto
     {
         [JsonProperty("first_name")]
         public string Name { get; set; }

@@ -59,7 +59,8 @@ namespace SimbirsfotStaging10
                 opts.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
                 opts.DefaultSignOutScheme = IdentityConstants.ApplicationScheme;
             });
-            services.AddSingleton<VkAuth>();
+            services.AddAuthServices();
+
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

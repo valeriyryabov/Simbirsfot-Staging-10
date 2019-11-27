@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using SimbirsfotStaging10.BLL.DTO;
+using SimbirsfotStaging10.BLL.Interfaces;
 
 namespace SimbirsfotStaging10.BLL.VK
 {
-    public class VkUserApi
+    public class VkUserApi : IAuthServUserApi
     {
         private VkUserAuthDto userAuthDto;
 
@@ -18,7 +19,7 @@ namespace SimbirsfotStaging10.BLL.VK
         }
 
 
-        public async Task<VkUserDto> GetUserProfile()
+        public async Task<AuthServUserDto> GetUserProfile()
         {
             var vkMethod = new VkApiMethod(VkApiMethods.GetProfileInfo, userAuthDto.AccessToken, keyVal: ("user_ids", userAuthDto.UserId));
             var user = JsonConvert.DeserializeObject<VkUsersGetDto>(await vkMethod.GetJsonRespAsync()).Users.FirstOrDefault();

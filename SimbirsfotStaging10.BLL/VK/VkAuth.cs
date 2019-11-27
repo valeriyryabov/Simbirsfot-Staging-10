@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System;
+using Microsoft.AspNetCore.Identity;
 using Newtonsoft.Json;
 using System.IO;
 using System.Linq;
@@ -10,27 +11,26 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Infrastructure;
+using SimbirsfotStaging10.BLL.Interfaces;
 
 namespace SimbirsfotStaging10.BLL.VK
 {
-    public class VkAuth
+    public class VkAuth : IAuthService
     {
         private const string AuthServerUrl = UrlMakeUtils.HttpsPrefix + "oauth.vk.com";
         private const string AuthorizePost = "/authorize";
         private const string AccessTokenPost = "/access_token";
         private const string GrantType = "code";
-        private const string RedirectUrl = UrlMakeUtils.HttpsPrefix + "localhost:44374/account/authorize";
+        private const string RedirectUrl = UrlMakeUtils.HttpsPrefix + "localhost:44374/account/authorize?service=Vk";
         public const string ActualApiVer = "5.103";
 
-        private readonly string clientSecret;
-        private readonly string clientId;
+        private string clientSecret;
+        private string clientId;
 
 
         public VkAuth(IConfiguration conf)
         {
-            var credentials = conf.GetSection("VkApplicationCredentials").GetChildren().ToDictionary(sec => sec.Key, sec => sec.Value);
-            clientId = credentials["ClientId"];
-            clientSecret = credentials["ClientSecret"];
+            SetClientCredentials(conf);
         }
 
 
@@ -42,7 +42,14 @@ namespace SimbirsfotStaging10.BLL.VK
                                     $"&redirect_uri={RedirectUrl}&code={code}";
 
 
-        public async Task<VkUserApi> Authorize(string code, HttpContext httpContext)
+        private void SetClientCredentials(IConfiguration conf)
+        {
+            var credentials = conf.GetSection("VkApplicationCredentials").GetChildren().ToDictionary(sec => sec.Key, sec => sec.Value);
+            clientId = credentials["ClientId"];
+            clientSecret = credentials["ClientSecret"];
+        }
+
+        public async Task<IAuthServUserApi> Authorize(string code, HttpContext httpContext)
         {
             var resp = await WebRequest.Create(UrlGetAccessToken(code)).GetResponseAsync();
             var json = new StreamReader(resp.GetResponseStream()).ReadToEnd();

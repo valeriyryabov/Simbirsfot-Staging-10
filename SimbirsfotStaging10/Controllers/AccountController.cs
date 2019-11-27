@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.BLL.DTO;
 using Microsoft.AspNetCore.Authentication;
+using SimbirsfotStaging10.BLL.Services;
 using SimbirsfotStaging10.BLL.VK;
 
 
@@ -13,12 +14,12 @@ namespace SimbirsfotStaging10.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-        private readonly VkAuth vkAuth;
+        private readonly AuthServiceResolver authServiceResolver;
 
-        public AccountController(IUserService userService, VkAuth vkAuth)
+        public AccountController(IUserService userService, AuthServiceResolver authServiceResolver)
         {
             _userService = userService;
-            this.vkAuth = vkAuth;
+            this.authServiceResolver = authServiceResolver;
         }
 
 
@@ -72,14 +73,15 @@ namespace SimbirsfotStaging10.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignInVk() => Redirect(vkAuth.UrlGetCode);
+        public IActionResult SignInVk() => Redirect(authServiceResolver(AuthServices.Vk).UrlGetCode);
 
 
         [HttpGet]
-        public async Task<IActionResult> Authorize(string code)
+        public async Task<IActionResult> Authorize(string service,string code)
         {
             //api вернул, если вдруг какие данные пользователя захотим получить в контроллере
-            var vkUserApi = await vkAuth.Authorize(code, HttpContext);
+            var authService = authServiceResolver(AuthServiceUtils.StringToEnumElement(service));
+            var authUserApi = await authService.Authorize(code, HttpContext);
             return RedirectToAction("Index", "Home");
         }
 
