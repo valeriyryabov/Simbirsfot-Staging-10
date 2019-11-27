@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace SimbirsfotStaging10.Views.Platform
 {
-    public class CreatePlatformModel : PageModel
+    public class DeleteModel : PageModel
     {
         public void OnGet()
         {

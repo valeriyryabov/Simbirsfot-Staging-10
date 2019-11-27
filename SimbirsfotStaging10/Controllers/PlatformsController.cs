@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SimbirsfotStaging10.Data.Interface;
-using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.BLL.DTO;
-using SimbirsfotStaging10.BLL.Services;
-
+using SimbirsfotStaging10.BLL.Interfaces;
+using SimbirsfotStaging10.Data.Interface;
 
 namespace SimbirsfotStaging10.Controllers
 {
@@ -31,11 +29,12 @@ namespace SimbirsfotStaging10.Controllers
         //    _allCategories = iPlatformsCategory;
         //}
 
-        [HttpGet]
+        [HttpGet("/Views/Platform/{page?}")]
         public ActionResult Create()
         {
             return View();
         }
+
 
         [HttpPost]
         public async Task<ActionResult> Create(PlatformsDTO platform)
@@ -45,12 +44,18 @@ namespace SimbirsfotStaging10.Controllers
                 var res = await _platformService.AddNewPlatform(platform);
                 if (res.Succeeded)
                     //  return RedirectToAction("List");
-                    RedirectToAction("Privacy", "Platform");//****************************
+                    //  RedirectToAction("Privacy", "Platform");//****************************
+                    //  RedirectToAction("Privacy");//**************************
+                    RedirectToAction("Privacy","Create");
                 else
                     ModelState.AddModelError("", res.Message);
             }
             return View(platform);
         }
+
+      
+
+
 
         [HttpGet]
         public async Task<ActionResult> Details(int id)
@@ -109,15 +114,15 @@ namespace SimbirsfotStaging10.Controllers
 
         //---------------------------------------------------
     
-        public ViewResult List() 
-        {
-            var Platforms = _allPlatfoms.Platforms;
-            return View(Platforms);
-        }
+        //public ViewResult List() 
+        //{
+        //   // var Platforms = _allPlatfoms.Platforms;
+        //   // return View(new List<PlatformsDTO>());
+        //}
         public IActionResult Index()
         {
-            var Platforms = _allPlatfoms.Platforms;
-            return View("~/Pages/Privacy.cshtml", Platforms);
+         //  var Platforms = _allPlatfoms.Platforms;
+            return View("~/Views/Privacy.cshtml", new List<PlatformsDTO>());
         }
     }
 }

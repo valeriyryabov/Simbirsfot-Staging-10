@@ -9,6 +9,8 @@ using Microsoft.EntityFrameworkCore;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.BLL.Services;
 using SimbirsfotStaging10.DAL.Entities;
+using SimbirsfotStaging10.Data.Interface;
+using SimbirsfotStaging10.Data.Mocks;
 
 namespace SimbirsfotStaging10
 {

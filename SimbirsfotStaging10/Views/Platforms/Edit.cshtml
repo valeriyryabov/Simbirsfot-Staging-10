@@ -1,0 +1,22 @@
+﻿@page
+@model SimbirsfotStaging10.BLL.DTO.PlatformsDTO
+@using System.Text;
+@{
+    <h2>Edit</h2>
+    <form method="post" asp-controller="Platform">
+        <div asp-validation-summary="ModelOnly"></div>
+        <h4 asp-for="id">Склон № @Model.Id</h4><br />
+      
+        <div class="form-group">
+            <label asp-for="Name">Наименование склона</label><br />
+            <label asp-for="Name">Текущее наименование склона: @Model.Name</label>
+            <input asp-for="Name" type="text" class="form-control col-3" value="@Model.Name" placeholder="Наименование" />
+            <span asp-validation-for="Name"></span>
+        </div>
+        <div>
+            <button asp-action="Edit" type="submit" class="btn btn-primary">Сохранить карту </button>
+            <button asp-action="Privacy" class="btn btn-light">Отмена</button>@*List*@
+        </div>
+    </form>
+
+}
