@@ -9,6 +9,7 @@ namespace SimbirsfotStaging10.DAL.Data
     {
         public SkiDBContext(DbContextOptions options) : base(options) { }
 
+
         public DbSet<Card> Cards { get; set; }
         public DbSet<CardPlatformItem> CardPlatformItemSet { get; set; }
         public DbSet<EventLog> EventLogSet { get; set; }
@@ -30,7 +31,7 @@ namespace SimbirsfotStaging10.DAL.Data
             SkiDBContext IDesignTimeDbContextFactory<SkiDBContext>.CreateDbContext(string[] args)
             {
                 var optionsBuilder = new DbContextOptionsBuilder();
-                optionsBuilder.UseSqlServer(@"Server = localhost\SQLEXPRESS; Database = test; Trusted_Connection = True;");
+                optionsBuilder.UseSqlServer(@"Server = localhost\SQLEXPRESS; Database = master; Trusted_Connection = True;");
                 return new SkiDBContext(optionsBuilder.Options);
             }
         }
