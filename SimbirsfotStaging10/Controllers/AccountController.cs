@@ -1,11 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.BLL.DTO;
-using Microsoft.AspNetCore.Authentication;
-using SimbirsfotStaging10.BLL.Services;
-using SimbirsfotStaging10.BLL.VK;
-
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,12 +13,11 @@ namespace SimbirsfotStaging10.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-        private readonly AuthServiceResolver authServiceResolver;
 
-        public AccountController(IUserService userService, AuthServiceResolver authServiceResolver)
+
+        public AccountController(IUserService userService)
         {
             _userService = userService;
-            this.authServiceResolver = authServiceResolver;
         }
 
 
@@ -60,34 +58,18 @@ namespace SimbirsfotStaging10.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(UserLoginDTO userDTO)
         {
-            if (ModelState.IsValid)
-            {
-                var res = await _userService.SignInByEmailPassword(userDTO);
-                if (res.Succeeded)
-                    return RedirectToAction("Index", "Home");
-                else
-                    ModelState.AddModelError("", "Неверный логин/пароль");
-                return View(userDTO);
-            }
+            var res = await _userService.SignInByEmailPassword(userDTO);
+            if (res.Succeeded)
+                return RedirectToAction("Index", "Home");
+            else
+                ModelState.AddModelError("", "Неверный логин/пароль");
             return View(userDTO);
         }
 
-        [HttpGet]
-        public IActionResult SignInVk() => Redirect(authServiceResolver(AuthServices.Vk).UrlGetCode);
-
-
-        [HttpGet]
-        public async Task<IActionResult> Authorize(string service,string code)
-        {
-            //api вернул, если вдруг какие данные пользователя захотим получить в контроллере
-            var authService = authServiceResolver(AuthServiceUtils.StringToEnumElement(service));
-            var authUserApi = await authService.Authorize(code, HttpContext);
-            return RedirectToAction("Index", "Home");
-        }
 
         public async Task<IActionResult> LogOut()
         {
-            await HttpContext.SignOutAsync();
+            await _userService.LogOut();
             return RedirectToAction("Index", "Home");
         }
     }

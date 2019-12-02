@@ -29,33 +29,30 @@
 
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-	                    <li class="nav-item">
-		                    <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
-	                    </li>
-	                    <li class="nav-item col-2">
-		                    <a class="nav-link text-dark" asp-controller="Card" asp-action="List">Карты доступа</a>
-	                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
                         @{
                             if (User.Identity.IsAuthenticated)
                             {
-                                <li class="nav-item align-self-end offset-7 col-2">
+                                <li class="nav-item align-self-end offset-8">
                                     <div class="nav-link">Привет, @User.Identity.Name</div>
                                 </li>
-                                <li class="nav-item align-self-end">
+                                <li class="nav-item align-self-end offset-1">
                                     <a class="nav-link text-dark" asp-controller="Account" asp-action="LogOut">Выйти</a>
                                 </li>
                             }
                             else
                             {
-                                <li class="nav-item align-self-end offset-8">
+                                <li class="nav-item align-self-end offset-10">
                                     <a class="nav-link text-dark" asp-controller="Account" asp-action="LogIn">Войти</a>
                                 </li>
-	                            <li class="nav-item align-self-end">
-		                            <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Регистрация</a>
-	                            </li>
+                                <li class="nav-item align-self-end">
+                                    <a class="nav-link text-dark" asp-controller="Account" asp-action="Register">Регистрация</a>
+                                </li>
                             }
-                        }
-                    </ul>
+                     }
+                            </ul>
                 </div>
 
             </div>
