@@ -18,5 +18,8 @@ namespace SimbirsfotStaging10.BLL.DTO
         [Required]
         [DataType(DataType.Date)]
         public DateTime DateEnd { get; set; }
+
+        [Required]
+        public int UserId;
     }
 }

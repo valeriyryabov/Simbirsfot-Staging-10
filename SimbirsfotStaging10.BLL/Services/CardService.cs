@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using SimbirsfotStaging10.DAL.Data;
 using SimbirsfotStaging10.DAL.Entities;
-using SimbirsfotStaging10.DAL.Data;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
 using System.Threading.Tasks;
 using SimbirsfotStaging10.BLL.Infrastructure;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
+using System.ComponentModel.DataAnnotations;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
@@ -22,17 +25,17 @@ namespace SimbirsfotStaging10.BLL.Services
             _context = context;
         }
 
-        public async Task<OperationDetail> AddNew(CardDTO dTO)
+        public async Task<OperationDetail> AddNew(CardDTO dTO, int userId)
         {
             try
             {
-                await _context.Cards.AddAsync(CreateEntityFromDTO(dTO));
+                await _context.Cards.AddAsync(CreateEntityFromDTO(dTO, userId));
                 await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true }; 
             }
             catch (Exception ex)
             {
-                return new OperationDetail { Succeeded = false, Message = ex.Message };
+                return new OperationDetail { Succeeded = false, Message = ex.Message + "\n" + ex.InnerException };
             }
         }
 
@@ -119,15 +122,15 @@ namespace SimbirsfotStaging10.BLL.Services
         }
 
 
-        static Card CreateEntityFromDTO(CardDTO dTO)
+        private Card CreateEntityFromDTO(CardDTO dTO, int userId)
         {
-            var entity = new Card
+            return new Card
             {
                 Id = dTO.Id,
+                UserId = userId,
                 DateBegin = dTO.DateBegin,
                 DateEnd = dTO.DateEnd,
             };
-            return entity;
         }
     }
 }

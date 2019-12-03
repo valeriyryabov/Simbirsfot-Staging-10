@@ -13,5 +13,6 @@ namespace SimbirsfotStaging10.BLL.Interfaces
         Task<SignInResult> SignInByEmailPassword(UserLoginDTO userDTO);
         Task LogOut();
         Task<SignInResult> SignIn(UserRegisterDTO userDTO);
+        Task<int> GetCurrentUserIDAsync();
     }
 }

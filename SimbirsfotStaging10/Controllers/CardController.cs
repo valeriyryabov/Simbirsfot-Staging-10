@@ -7,17 +7,22 @@ using Microsoft.AspNetCore.Mvc;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Services;
 using SimbirsfotStaging10.BLL.Interfaces;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 
 namespace SimbirsfotStaging10.Controllers
 {
     public class CardController : Controller
     {
+        private readonly IUserService _userService;
         private readonly ICardService _cardservice;
+
         private List<CardDTO> Cards { get; set; }
 
-        public CardController(ICardService cardService)
+        public CardController(ICardService cardService, IUserService userService)
         {
             _cardservice = cardService;
+            _userService = userService;
         }
 
         [HttpGet]
@@ -31,7 +36,8 @@ namespace SimbirsfotStaging10.Controllers
         {
             if (ModelState.IsValid)
             {
-                var res = await _cardservice.AddNew(card);
+                int currentUserId = await _userService.GetCurrentUserIDAsync();
+                var res = await _cardservice.AddNew(card, currentUserId);
                 if (res.Succeeded)
                     return RedirectToAction("List");
                 else

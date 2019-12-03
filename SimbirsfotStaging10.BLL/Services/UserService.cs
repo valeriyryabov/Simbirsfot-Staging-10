@@ -8,23 +8,24 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using Quartz;
 using SimbirsfotStaging10.Logger;
-
+using Microsoft.AspNetCore.Http;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
-
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<UserService> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-
-        public UserService(UserManager<User> UserManager, SignInManager<User> SignInManager, ILogger<UserService> logger)
+        public UserService(UserManager<User> UserManager, SignInManager<User> SignInManager, 
+            ILogger<UserService> logger, IHttpContextAccessor httpContextAccessor)
         {
             _userManager = UserManager;
             _signInManager = SignInManager;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
         }
 
 
@@ -36,8 +37,6 @@ namespace SimbirsfotStaging10.BLL.Services
                 userDTO);
             return userCreate;
         }
-
-
 
 
         public async Task<SignInResult> SignIn(UserRegisterDTO userDTO)
@@ -130,6 +129,12 @@ namespace SimbirsfotStaging10.BLL.Services
         public void Dispose()
         {
             _userManager.Dispose();
+        }
+
+        public async Task<int> GetCurrentUserIDAsync()
+        {
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            return user.Id;
         }
     }
 }

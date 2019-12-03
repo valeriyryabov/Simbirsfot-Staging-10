@@ -53,6 +53,9 @@ namespace SimbirsfotStaging10
             services.ConfigureApplicationCookie( opts => opts.LoginPath = "/Account/Login");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddQuartzDbLogging();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddHttpContextAccessor();
+
             services.AddAuthentication(opts =>
             {
                 opts.DefaultAuthenticateScheme = IdentityConstants.ApplicationScheme;

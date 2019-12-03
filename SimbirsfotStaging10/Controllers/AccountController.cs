@@ -46,7 +46,7 @@ namespace SimbirsfotStaging10.Controllers
                 if (res.Succeeded)
                 {
                     await _userService.SignIn(userModel);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("List", "Card");
                 }
                 else
                     foreach (var err in res.Errors)
@@ -64,7 +64,7 @@ namespace SimbirsfotStaging10.Controllers
             {
                 var res = await _userService.SignInByEmailPassword(userDTO);
                 if (res.Succeeded)
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("List", "Card");
                 else
                     ModelState.AddModelError("", "Неверный логин/пароль");
                 return View(userDTO);
