@@ -3,6 +3,7 @@ using SimbirsfotStaging10.BLL.DTO;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using SimbirsfotStaging10.DAL.Entities;
 
 
 namespace SimbirsfotStaging10.BLL.Interfaces
@@ -13,6 +14,8 @@ namespace SimbirsfotStaging10.BLL.Interfaces
         Task<SignInResult> SignInByEmailPassword(UserLoginDTO userDTO);
         Task LogOut();
         Task<SignInResult> SignIn(UserRegisterDTO userDTO);
+        Task<User> GetCurrentUserAsync();
         Task<int> GetCurrentUserIDAsync();
+        Task<List<CardDTO>> GetCurrentUserCardsAsync();
     }
 }

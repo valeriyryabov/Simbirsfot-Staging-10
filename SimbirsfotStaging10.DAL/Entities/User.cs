@@ -23,6 +23,12 @@ namespace SimbirsfotStaging10.DAL.Entities
 
         public List<Card> CardList { get; set; }
 
-        public List<UserEquipmentItem> UserEquipmentList { get; set; }      
+        public List<UserEquipmentItem> UserEquipmentList { get; set; } 
+        
+
+        public User()
+        {
+            CardList = new List<Card>();
+        }
     }
 }

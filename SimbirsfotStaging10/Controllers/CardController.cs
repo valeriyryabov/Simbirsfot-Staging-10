@@ -150,5 +150,16 @@ namespace SimbirsfotStaging10.Controllers
             return View();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ListForCurrentUser()
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _userService.GetCurrentUserCardsAsync();
+                return View(res);
+            }
+            return View();
+        }
+
     }
 }
