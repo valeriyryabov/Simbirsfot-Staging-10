@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.BLL.DTO;
+using Microsoft.AspNetCore.Authentication;
+using SimbirsfotStaging10.BLL.Services;
+using SimbirsfotStaging10.BLL.VK;
+
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -13,11 +14,12 @@ namespace SimbirsfotStaging10.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
+        private readonly AuthServiceResolver _authServiceResolver;
 
-
-        public AccountController(IUserService userService)
+        public AccountController(IUserService userService, AuthServiceResolver authServiceResolver)
         {
             _userService = userService;
+            this._authServiceResolver = authServiceResolver;
         }
 
 
@@ -67,10 +69,21 @@ namespace SimbirsfotStaging10.Controllers
                     ModelState.AddModelError("", "Неверный логин/пароль");
                 return View(userDTO);
             }
-
             return View(userDTO);
         }
 
+        [HttpGet]
+        public IActionResult SignInVk() => Redirect(_authServiceResolver(AuthServices.Vk).UrlGetCode);
+
+
+        [HttpGet]
+        public async Task<IActionResult> Authorize(string service,string code)
+        {
+            //api вернул, если вдруг какие данные пользователя захотим получить в контроллере
+            var authService = _authServiceResolver(AuthServiceUtils.StringToEnumElement(service));
+            var authUserApi = await authService.Authorize(code, HttpContext);
+            return RedirectToAction("Index", "Home");
+        }
 
         public async Task<IActionResult> LogOut()
         {
