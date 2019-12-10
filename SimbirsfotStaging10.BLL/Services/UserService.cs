@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.DAL.Entities;
@@ -12,6 +13,7 @@ using SimbirsfotStaging10.Logger;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using SimbirsfotStaging10.BLL.Infrastructure;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
@@ -24,7 +26,7 @@ namespace SimbirsfotStaging10.BLL.Services
 
         private SkiDBContext _context;
 
-        public UserService(UserManager<User> UserManager, SignInManager<User> SignInManager, 
+        public UserService(UserManager<User> UserManager, SignInManager<User> SignInManager,
             ILogger<UserService> logger, IHttpContextAccessor httpContextAccessor, SkiDBContext context)
         {
             _userManager = UserManager;
@@ -150,17 +152,17 @@ namespace SimbirsfotStaging10.BLL.Services
             return user.Id;
         }
 
-        public async Task<List<CardDTO>> GetCurrentUserCardsAsync()
+        public async Task<List<CardDTO>> GetCurrentUserCardsAsync_()
         {
             var currentUser = await GetCurrentUserAsync();
             List<CardDTO> dTOs = new List<CardDTO>();
             var user = _context.Users
                 .Include(u => u.CardList)
                 .SingleOrDefault(u => u.Id == currentUser.Id);
-            foreach(Card item in user.CardList)
+            foreach (Card item in user.CardList)
             {
                 dTOs.Add(
-                    new CardDTO 
+                    new CardDTO
                     {
                         Id = item.Id,
                         DateBegin = item.DateBegin,
@@ -170,6 +172,36 @@ namespace SimbirsfotStaging10.BLL.Services
                 );
             }
             return dTOs;
+        }
+
+        public async Task<(List<CardDTO>, OperationDetail)> GetCurrentUserCardsAsync()
+        {
+            try
+            {
+                var currentUser = await GetCurrentUserAsync();
+                List<CardDTO> dTOs = new List<CardDTO>();
+                var user = _context.Users
+                    .Include(u => u.CardList)
+                    .SingleOrDefault(u => u.Id == currentUser.Id);
+                foreach (Card item in user.CardList)
+                {
+                    dTOs.Add(
+                        new CardDTO
+                        {
+                            Id = item.Id,
+                            DateBegin = item.DateBegin,
+                            DateEnd = item.DateEnd,
+                            UserId = item.UserId
+                        }
+                    );
+                }
+                return (dTOs, new OperationDetail { Succeeded = true });
+            }
+
+            catch (Exception ex)
+            {
+                return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
+            }
         }
     }
 }

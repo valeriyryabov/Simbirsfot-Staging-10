@@ -156,7 +156,11 @@ namespace SimbirsfotStaging10.Controllers
             if (ModelState.IsValid)
             {
                 var res = await _userService.GetCurrentUserCardsAsync();
-                return View(res);
+
+                if (res.Item2.Succeeded)
+                    return View(res.Item1);
+                else
+                    ModelState.AddModelError("", res.Item2.Message);
             }
             return View();
         }
