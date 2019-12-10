@@ -9,8 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.BLL.Services;
 using SimbirsfotStaging10.DAL.Entities;
-using SimbirsfotStaging10.Data.Interface;
-using SimbirsfotStaging10.Data.Mocks;
 
 namespace SimbirsfotStaging10
 {
@@ -32,18 +30,18 @@ namespace SimbirsfotStaging10
 				options.CheckConsentNeeded = context => true;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
-            services.AddTransient<IAllPlatforms, MockPlatforms>();
-            services.AddTransient<IPlatformsCategory, MockCategory>();
             services.AddTransient<IPlatformsService, PlatformsServices>();
 
             services.AddDbContextPool<SkiDBContext>( optionsBuilder => 
-                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                    optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));// ад?
+
+            
             services.AddTransient<IUserService, UserService>();
             services.AddIdentity<User, CustomRole>(opts => opts.SetCustomIdentityOptions())
                 .AddEntityFrameworkStores<SkiDBContext>();
             services.ConfigureApplicationCookie( opts => opts.LoginPath = "/Account/Login");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
+          
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

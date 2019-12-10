@@ -13,5 +13,7 @@ namespace SimbirsfotStaging10.BLL.DTO
 
         [Required]
         public string Name { get; set; }
+
+
     }
 }

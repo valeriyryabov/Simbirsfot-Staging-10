@@ -17,6 +17,7 @@ namespace SimbirsfotStaging10.BLL.Interfaces
         Task<OperationDetail> DeletePlatform(int platfprmId);
         Task<OperationDetail> EditPlatform(int platfprmId, PlatformsDTO platformsDTO);
         Task<(PlatformsDTO, OperationDetail)> GetPlatformById(int platfprmId);
-       // Task<(List<PlatformsDTO>, OperationDetail)> GetAllPlatformsFromDB();
+       
+        Task<(List<PlatformsDTO>, OperationDetail)> GetAllPlatformsFromDB();
     }
 }

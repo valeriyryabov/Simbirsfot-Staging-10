@@ -2,34 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
-using SimbirsfotStaging10.Data.Interface;
+using SimbirsfotStaging10.DAL.Data;
+//using SimbirsfotStaging10.Data.Interface;
 
 namespace SimbirsfotStaging10.Controllers
 {
     public class PlatformsController : Controller
     {
-        private readonly IAllPlatforms _allPlatfoms;
-        private readonly IPlatformsCategory _allCategories;
-        //---------------------------------------------------
+     
 
         private readonly IPlatformsService _platformService;
         private List<PlatformsDTO> Platforms { get;set; }
-
+        
         public PlatformsController(IPlatformsService platformsService)
         {
             _platformService = platformsService;
         }
 
-        //public PlatformsController(IAllPlatforms allPlatforms, IPlatformsCategory iPlatformsCategory)
-        //{
-        //    _allPlatfoms = allPlatforms;
-        //    _allCategories = iPlatformsCategory;
-        //}
-
-        [HttpGet("/Views/Platform/{page?}")]
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
@@ -43,19 +38,13 @@ namespace SimbirsfotStaging10.Controllers
             {
                 var res = await _platformService.AddNewPlatform(platform);
                 if (res.Succeeded)
-                    //  return RedirectToAction("List");
-                    //  RedirectToAction("Privacy", "Platform");//****************************
-                    //  RedirectToAction("Privacy");//**************************
                     RedirectToAction("Privacy","Create");
                 else
                     ModelState.AddModelError("", res.Message);
             }
-            return View(platform);
+            return RedirectToAction("Index");
+
         }
-
-      
-
-
 
         [HttpGet]
         public async Task<ActionResult> Details(int id)
@@ -74,29 +63,53 @@ namespace SimbirsfotStaging10.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit()
+        public async Task<ActionResult> Edit(int? id)
         {
-            return View();
+            PlatformsDTO DTO;
+            if (!id.HasValue)
+            {
+                DTO = new PlatformsDTO();
+            }
+            else
+            {
+                DTO = (await _platformService.GetPlatformById(id.Value)).Item1;
+            }
+            return View(DTO);
         }
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(int id, PlatformsDTO platformsDTO)
+        public async Task<ActionResult> Edit(int id, PlatformsDTO Dto)
         {
             if (ModelState.IsValid)
             {
-                var res = await _platformService.EditPlatform(id,platformsDTO);
+                var res = await _platformService.EditPlatform(id, Dto);
                 if (res.Succeeded)
-                    RedirectToAction("Privacy", "Platform");
+                    return RedirectToAction("Index");
                 else
-                    ModelState.AddModelError("", res.Message);
+                    return StatusCode(StatusCodes.Status404NotFound);
             }
-            return View(platformsDTO);
+            return View(Dto);
         }
 
 
-        [HttpPost]
+
+        [HttpGet]
+        public async Task<ActionResult> Delete(int? id)
+        {
+            PlatformsDTO DTO;
+            if (!id.HasValue)
+            {
+                DTO = new PlatformsDTO();
+            }
+            else
+            {
+                DTO = (await _platformService.GetPlatformById(id.Value)).Item1;
+            }
+            return View(DTO);
+        }
+
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Delete(int id)
         {
@@ -104,25 +117,55 @@ namespace SimbirsfotStaging10.Controllers
             {
                 var res = await _platformService.DeletePlatform(id);
                 if (res.Succeeded)
-                    RedirectToAction("Privacy", "Platform");
+                    return RedirectToAction("Index");
                 else
-                    ModelState.AddModelError("", res.Message);
+                    return StatusCode(StatusCodes.Status404NotFound);
             }
             return View();
         }
 
 
-        //---------------------------------------------------
-    
-        //public ViewResult List() 
-        //{
-        //   // var Platforms = _allPlatfoms.Platforms;
-        //   // return View(new List<PlatformsDTO>());
-        //}
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-         //  var Platforms = _allPlatfoms.Platforms;
-            return View("~/Views/Privacy.cshtml", new List<PlatformsDTO>());
+            //  var Platforms = _allPlatfoms.Platforms;
+            var res = await _platformService.GetAllPlatformsFromDB();
+            if (res.Item2.Succeeded)
+                return View("~/Views/Privacy.cshtml", res.Item1);
+            else
+                return StatusCode(StatusCodes.Status404NotFound);
+            return View("~/Views/Privacy.cshtml" );
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> List()
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _platformService.GetAllPlatformsFromDB();
+                if (res.Item2.Succeeded)
+                    return View(res.Item1);
+                else
+                    ModelState.AddModelError("", res.Item2.Message);
+            }
+            return View();
+        }
+      
+        [HttpPost, ActionName("List")]
+        public async Task<IActionResult> ListConfirmed()
+        {
+            if (ModelState.IsValid)
+            {
+                var res = await _platformService.GetAllPlatformsFromDB();
+                if (res.Item2.Succeeded)
+                    return View(res.Item1);
+                else
+                    ModelState.AddModelError("", res.Item2.Message);
+            }
+            return View();
+        }
+
     }
 }

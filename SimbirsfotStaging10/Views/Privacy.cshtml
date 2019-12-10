@@ -9,6 +9,7 @@
 <p>
     <a asp-action="Create">Добавить новый склон</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -26,7 +27,8 @@
         </tr>
     </thead>
     <tbody>
-        @{
+        @{  
+
             foreach (var platfoms in Model)
             {
                 <tr>
@@ -41,17 +43,8 @@
                         <a asp-action="Delete" asp-route-id="@platfoms.Id">Удалить</a>
                     </td>
                 </tr>
-                @*<div>
-                        Добавить кнопку
-                        <h2>Вид склона: @platfoms.Name</h2>
-                    </div>*@
             }
         }
 
     </tbody>
 </table>
-@*<div>
-    <button type="submit" class="btn btn-primary">Добавить карту</button>
-</div>*@
-
-@*<p>Тут будут склоны "Вася закачаешься!"</p>*@

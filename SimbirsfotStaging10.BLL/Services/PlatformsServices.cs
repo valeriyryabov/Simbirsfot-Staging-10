@@ -25,8 +25,8 @@ namespace SimbirsfotStaging10.BLL.Services
         {
             try
             {
-                await _context.Platforms.AddAsync(CreatePlatformEntityFromDTO(platformsDTO)).ConfigureAwait(true);
-                await _context.SaveChangesAsync().ConfigureAwait(true);
+                await _context.Platforms.AddAsync(CreatePlatformEntityFromDTO(platformsDTO));
+                await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true };
             }
             catch (Exception ex)
@@ -45,22 +45,13 @@ namespace SimbirsfotStaging10.BLL.Services
                 _context.Platforms.Remove(platform);
                 await _context.SaveChangesAsync().ConfigureAwait(true);
                 return new OperationDetail { Succeeded = true };
-                //Card card = await _context.Cards.FindAsync(cardId);
-                //_context.Cards.Remove(card);
-                //await _context.SaveChangesAsync().ConfigureAwait(true);
-                //return new OperationDetail { Succeeded = true };
             }
             catch (Exception ex)
             {
                 return new OperationDetail { Succeeded = true, Message = ex.Message };
             }
-            // throw new NotImplementedException();
         }
 
-        //public Task<OperationDetail> EditPlatform(int platfprmId, PlatformsDTO platformsDTO)
-        //{
-        //    throw new NotImplementedException();
-        //}
         public async Task<OperationDetail> EditPlatform(int platfprmId,PlatformsDTO platformsDTO)
         {
             try
@@ -75,7 +66,6 @@ namespace SimbirsfotStaging10.BLL.Services
             {
                 return new OperationDetail { Succeeded = true, Message = ex.Message };
             }
-            //throw new NotImplementedException();
         }
 
         public async Task<(PlatformsDTO, OperationDetail)> GetPlatformById(int platfprmId)
@@ -99,16 +89,33 @@ namespace SimbirsfotStaging10.BLL.Services
             {
                 return (null, new OperationDetail { Succeeded = true, Message = ex.Message });
             }
-            // throw new NotImplementedException();
         }
 
-    
 
-        //Task<(List<PlatformsDTO>, OperationDetail)> IPlatformsService.GetAllPlatformsFromDB()
-        //{
-
-        //    throw new NotImplementedException();
-        //}
+        public async Task<(List<PlatformsDTO>, OperationDetail)> GetAllPlatformsFromDB()
+        {
+            try
+            {
+                List<Platform> PlatformList = new List<Platform>();
+                Platforms = new List<PlatformsDTO>();
+                PlatformList = await _context.Platforms.AsNoTracking().ToListAsync();//_context.Cards.AsNoTracking().ToListAsync();
+                foreach (Platform item in PlatformList)
+                {
+                    Platforms.Add(
+                        new PlatformsDTO
+                        {
+                            Id = item.Id,
+                            Name = item.Name
+                        }
+                    );
+                }
+                return (Platforms, new OperationDetail { Succeeded = true });
+            }
+            catch (Exception ex)
+            {
+                return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
+            }
+        }
        
         static Platform CreatePlatformEntityFromDTO(PlatformsDTO platformDTO)
         {

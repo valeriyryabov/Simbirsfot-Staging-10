@@ -1,6 +1,4 @@
-﻿@*page*@
-@*model SimbirsfotStaging10.Views.Platform.CreatePlatformModel*@
-@using SimbirsfotStaging10.Controllers;
+﻿@using SimbirsfotStaging10.Controllers;
 @model SimbirsfotStaging10.BLL.DTO.PlatformsDTO
 
 @*{
@@ -16,6 +14,8 @@
         <span asp-validation-for="Name"></span>
     </div>
      <div>
+         <button asp-action="Create" class="btn btn-light">Сохранить</button>
          <button asp-action="Index" class="btn btn-light">Отмена</button>
+
      </div>
 </form>
