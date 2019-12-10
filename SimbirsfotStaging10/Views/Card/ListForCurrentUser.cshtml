@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<SimbirsfotStaging10.BLL.DTO.CardDTO>
 
 @{
-    ViewData["Title"] = "Карты доступа";
+    ViewData["Title"] = "Мои карты доступа";
 }
 
-<h1>Карты доступа</h1>
+<h1>Карты доступа пользователя @User.Identity.Name</h1>
 
 <p>
     <a asp-action="Create">Добавить новую карту</a>
@@ -22,9 +22,6 @@
             <th>
                 Дата конца срока действия
             </th>
-            <th>
-                Действия
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -41,10 +38,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateEnd)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
                 </td>
             </tr>
         }

@@ -1,10 +1,13 @@
 ﻿@model IEnumerable<SimbirsfotStaging10.BLL.DTO.CardDTO>
+@using Microsoft.EntityFrameworkCore;
+@using SimbirsfotStaging10.DAL.Data;
+@using SimbirsfotStaging10.DAL.Entities
 
 @{
     ViewData["Title"] = "Карты доступа";
 }
 
-<h1>Карты доступа</h1>
+<h1>Карты доступа всех пользователей</h1>
 
 <p>
     <a asp-action="Create">Добавить новую карту</a>
@@ -15,6 +18,9 @@
         <tr>
             <th>
                 Номер
+            </th>
+            <th>
+                ID пользователя
             </th>
             <th>
                 Дата начала срока действия
@@ -35,6 +41,9 @@
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.DateBegin)

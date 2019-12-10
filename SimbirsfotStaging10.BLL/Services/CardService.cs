@@ -122,6 +122,7 @@ namespace SimbirsfotStaging10.BLL.Services
                             Id = item.Id,
                             DateBegin = item.DateBegin,
                             DateEnd = item.DateEnd,
+                            UserId = item.UserId
                         }
                     );
                 }

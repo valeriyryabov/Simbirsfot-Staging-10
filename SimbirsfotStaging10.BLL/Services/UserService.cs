@@ -152,27 +152,22 @@ namespace SimbirsfotStaging10.BLL.Services
 
         public async Task<List<CardDTO>> GetCurrentUserCardsAsync()
         {
-            List<CardDTO> dTOs = new List<CardDTO>();
             var currentUser = await GetCurrentUserAsync();
-            var userList = _context.Users
-                .Include(u => u.CardList)   // добавляем данные по картам
-                .ToList();
-
-            foreach(User entity in userList)
+            List<CardDTO> dTOs = new List<CardDTO>();
+            var user = _context.Users
+                .Include(u => u.CardList)
+                .SingleOrDefault(u => u.Id == currentUser.Id);
+            foreach(Card item in user.CardList)
             {
-                if(entity == currentUser)
-                {
-                    foreach (Card item in entity.CardList)
+                dTOs.Add(
+                    new CardDTO 
                     {
-                        dTOs.Add(new CardDTO
-                        {
-                            Id = item.Id,
-                            DateBegin = item.DateBegin,
-                            DateEnd = item.DateEnd,
-                            UserId = item.UserId
-                        });
+                        Id = item.Id,
+                        DateBegin = item.DateBegin,
+                        DateEnd = item.DateEnd,
+                        UserId = item.UserId
                     }
-                }
+                );
             }
             return dTOs;
         }
