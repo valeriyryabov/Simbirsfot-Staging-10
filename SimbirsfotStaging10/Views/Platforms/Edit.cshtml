@@ -6,10 +6,7 @@
 <h2>Изменение названия склона</h2>
 <form method="post" asp-controller="Platforms">
     <div asp-validation-summary="ModelOnly"></div>
-    @*<h4 asp-for="id">Склон  @Model.Name</h4><br />*@
-
-    <div class="form-group">
-        @*<label asp-for="Name">Наименование склона</label><br />*@
+     <div class="form-group">
         <label asp-for="Name">Текущее наименование склона: @Model.Name</label>
         <input asp-for="Name" type="text" class="form-control col-3" value="@Model.Name" placeholder="Наименование" />
         <span asp-validation-for="Name"></span>

@@ -33,15 +33,12 @@ namespace SimbirsfotStaging10
             services.AddTransient<IPlatformsService, PlatformsServices>();
 
             services.AddDbContextPool<SkiDBContext>( optionsBuilder => 
-                    optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));// ад?
-
-            
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IUserService, UserService>();
             services.AddIdentity<User, CustomRole>(opts => opts.SetCustomIdentityOptions())
                 .AddEntityFrameworkStores<SkiDBContext>();
             services.ConfigureApplicationCookie( opts => opts.LoginPath = "/Account/Login");
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-          
         }
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -7,18 +7,10 @@ namespace SimbirsfotStaging10.DAL.Entities
 {
     public class Platform
     {
-        private DbContextOptions options;
-
-        //public Platform(DbContextOptions options)
-        //{
-        //    this.options = options;
-        //}
-
         public int Id { get; set; }
 
         [Column(TypeName="varchar(255)")]
         public string Name { get; set; }
-
         
         public List<CardPlatformItem> CardPlatformItemList { get; set; }
 

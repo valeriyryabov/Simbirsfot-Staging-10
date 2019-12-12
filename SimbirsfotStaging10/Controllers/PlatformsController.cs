@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
-using SimbirsfotStaging10.DAL.Data;
-//using SimbirsfotStaging10.Data.Interface;
 
 namespace SimbirsfotStaging10.Controllers
 {
     public class PlatformsController : Controller
     {
-     
-
         private readonly IPlatformsService _platformService;
-        private List<PlatformsDTO> Platforms { get;set; }
         
         public PlatformsController(IPlatformsService platformsService)
         {
@@ -29,7 +20,6 @@ namespace SimbirsfotStaging10.Controllers
         {
             return View();
         }
-
 
         [HttpPost]
         public async Task<ActionResult> Create(PlatformsDTO platform)
@@ -92,8 +82,6 @@ namespace SimbirsfotStaging10.Controllers
             return View(Dto);
         }
 
-
-
         [HttpGet]
         public async Task<ActionResult> Delete(int? id)
         {
@@ -124,20 +112,14 @@ namespace SimbirsfotStaging10.Controllers
             return View();
         }
 
-
-
         public async Task<IActionResult> Index()
         {
-            //  var Platforms = _allPlatfoms.Platforms;
             var res = await _platformService.GetAllPlatformsFromDB();
             if (res.Item2.Succeeded)
-                return View("~/Views/Privacy.cshtml", res.Item1);
+                return View("~/Views/Platforms/Privacy.cshtml", res.Item1);
             else
                 return StatusCode(StatusCodes.Status404NotFound);
-            return View("~/Views/Privacy.cshtml" );
         }
-
-
 
         [HttpGet]
         public async Task<IActionResult> List()
@@ -166,6 +148,5 @@ namespace SimbirsfotStaging10.Controllers
             }
             return View();
         }
-
     }
 }
