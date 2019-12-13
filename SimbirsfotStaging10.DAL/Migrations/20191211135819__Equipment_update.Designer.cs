@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SimbirsfotStaging10.DAL.Data;
 
 namespace SimbirsfotStaging10.DAL.Migrations
 {
     [DbContext(typeof(SkiDBContext))]
-    partial class SkiDBContextModelSnapshot : ModelSnapshot
+    [Migration("20191211135819__Equipment_update")]
+    partial class _Equipment_update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

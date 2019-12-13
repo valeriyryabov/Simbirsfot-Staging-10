@@ -5,20 +5,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SimbirsfotStaging10.BLL.DTO
 {
-    public class CardDTO
+    class EquipmentDTO
     {
         [Required]
         public int Id { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateTime DateBegin { get; set; }
+        public string Name { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        public DateTime DateEnd { get; set; }
-
-        [Required]
-        public int UserId;
+        public bool IsDeleted { get; set; }
     }
 }
