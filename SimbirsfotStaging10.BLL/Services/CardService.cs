@@ -38,20 +38,6 @@ namespace SimbirsfotStaging10.BLL.Services
             }
         }
 
-        public async Task<OperationDetail> AddNew(CardDTO dTO, int userId, User owner)
-        {
-            try
-            {
-                await _context.Cards.AddAsync(CreateEntityFromDTO(dTO, userId, owner));
-                await _context.SaveChangesAsync();
-                return new OperationDetail { Succeeded = true };
-            }
-            catch (Exception ex)
-            {
-                return new OperationDetail { Succeeded = false, Message = ex.Message + "\n" + ex.InnerException };
-            }
-        }
-
         public async Task<OperationDetail> Delete(int id)
         {
             try
@@ -170,18 +156,6 @@ namespace SimbirsfotStaging10.BLL.Services
                 UserId = userId,
                 DateBegin = dTO.DateBegin,
                 DateEnd = dTO.DateEnd,
-            };
-        }
-
-        private Card CreateEntityFromDTO(CardDTO dTO, int userId, User owner)
-        {
-            return new Card
-            {
-                Id = dTO.Id,
-                UserId = userId,
-                DateBegin = dTO.DateBegin,
-                DateEnd = dTO.DateEnd,
-                Owner = owner
             };
         }
     }

@@ -11,7 +11,6 @@ namespace SimbirsfotStaging10.BLL.Interfaces
 {
     public interface ICardService
     {
-        Task<OperationDetail> AddNew(CardDTO DTO, int userId, User owner);
         Task<OperationDetail> AddNew(CardDTO DTO, int userId);
         Task<OperationDetail> Delete(int cardId);
         Task<OperationDetail> Edit(int cardId, CardDTO DTO);
