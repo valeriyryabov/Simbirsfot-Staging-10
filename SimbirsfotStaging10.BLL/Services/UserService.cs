@@ -57,7 +57,6 @@ namespace SimbirsfotStaging10.BLL.Services
         }
 
 
-
         async public Task LogOut()
         {
             var tmplForClaimId = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier";
@@ -152,27 +151,6 @@ namespace SimbirsfotStaging10.BLL.Services
             return user.Id;
         }
 
-        public async Task<List<CardDTO>> GetCurrentUserCardsAsync_()
-        {
-            var currentUser = await GetCurrentUserAsync();
-            List<CardDTO> dTOs = new List<CardDTO>();
-            var user = _context.Users
-                .Include(u => u.CardList)
-                .SingleOrDefault(u => u.Id == currentUser.Id);
-            foreach (Card item in user.CardList)
-            {
-                dTOs.Add(
-                    new CardDTO
-                    {
-                        Id = item.Id,
-                        DateBegin = item.DateBegin,
-                        DateEnd = item.DateEnd,
-                        UserId = item.UserId
-                    }
-                );
-            }
-            return dTOs;
-        }
 
         public async Task<(List<CardDTO>, OperationDetail)> GetCurrentUserCardsAsync()
         {

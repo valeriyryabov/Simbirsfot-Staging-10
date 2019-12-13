@@ -14,12 +14,12 @@ namespace SimbirsfotStaging10.Controllers
     public class AccountController : Controller
     {
         private readonly IUserService _userService;
-        private readonly AuthServiceResolver authServiceResolver;
+        private readonly AuthServiceResolver _authServiceResolver;
 
         public AccountController(IUserService userService, AuthServiceResolver authServiceResolver)
         {
             _userService = userService;
-            this.authServiceResolver = authServiceResolver;
+            _authServiceResolver = authServiceResolver;
         }
 
 
@@ -73,14 +73,14 @@ namespace SimbirsfotStaging10.Controllers
         }
 
         [HttpGet]
-        public IActionResult SignInVk() => Redirect(authServiceResolver(AuthServices.Vk).UrlGetCode);
+        public IActionResult SignInVk() => Redirect(_authServiceResolver(AuthServices.Vk).UrlGetCode);
 
 
         [HttpGet]
         public async Task<IActionResult> Authorize(string service,string code)
         {
             //api вернул, если вдруг какие данные пользователя захотим получить в контроллере
-            var authService = authServiceResolver(AuthServiceUtils.StringToEnumElement(service));
+            var authService = _authServiceResolver(AuthServiceUtils.StringToEnumElement(service));
             var authUserApi = await authService.Authorize(code, HttpContext);
             return RedirectToAction("Index", "Home");
         }
