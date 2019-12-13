@@ -64,13 +64,12 @@
             </div>
         </nav>
     </header>
-    
-    <header class="masthead">
-        <div style="height: 100px"></div>
-        <div class="container">
+    <div class="container">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
             @RenderBody()
-        </div>
-    </header>
+        </main>
+    </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
