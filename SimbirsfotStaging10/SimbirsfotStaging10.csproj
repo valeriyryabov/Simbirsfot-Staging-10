@@ -20,4 +20,7 @@
     <ProjectReference Include="..\SimbirsfotStaging10.DAL\SimbirsfotStaging10.DAL.csproj" />
   </ItemGroup>
 
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
 </Project>
