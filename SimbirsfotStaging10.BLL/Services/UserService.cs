@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
@@ -17,6 +17,7 @@ using SimbirsfotStaging10.BLL.Infrastructure;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
+
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;

@@ -150,6 +150,7 @@ namespace SimbirsfotStaging10.Controllers
             return View();
         }
 
+
         [HttpGet]
         public async Task<IActionResult> ListForCurrentUser()
         {
@@ -164,6 +165,5 @@ namespace SimbirsfotStaging10.Controllers
             }
             return View();
         }
-
     }
 }

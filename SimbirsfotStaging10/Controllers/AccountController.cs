@@ -19,7 +19,7 @@ namespace SimbirsfotStaging10.Controllers
         public AccountController(IUserService userService, AuthServiceResolver authServiceResolver)
         {
             _userService = userService;
-            _authServiceResolver = authServiceResolver;
+            this._authServiceResolver = authServiceResolver;
         }
 
 

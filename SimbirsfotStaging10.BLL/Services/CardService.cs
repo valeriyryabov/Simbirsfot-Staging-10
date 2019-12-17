@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using SimbirsfotStaging10.DAL.Data;
 using SimbirsfotStaging10.DAL.Entities;
 using SimbirsfotStaging10.BLL.DTO;
@@ -13,11 +14,13 @@ namespace SimbirsfotStaging10.BLL.Services
     public class CardService : ICardService
     {
         private SkiDBContext _context;
+        private List<CardDTO> Cards { get; set; }
 
         public CardService(SkiDBContext context)
         {
             _context = context;
         }
+
 
         public async Task<OperationDetail> AddNew(CardDTO dTO, int userId)
         {
@@ -114,6 +117,7 @@ namespace SimbirsfotStaging10.BLL.Services
                 return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
             }
         }
+
 
         public async Task<(List<CardDTO>, OperationDetail)> GetAllFromDB(int userID)
         {
