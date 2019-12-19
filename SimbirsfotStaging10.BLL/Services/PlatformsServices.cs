@@ -14,7 +14,6 @@ namespace SimbirsfotStaging10.BLL.Services
     public class PlatformsServices : IPlatformsService
     {
         private SkiDBContext _context;
-        private List<PlatformsDTO> Platforms { get; set; }  
 
         public PlatformsServices(SkiDBContext context)
         {
@@ -33,8 +32,6 @@ namespace SimbirsfotStaging10.BLL.Services
             {
                 return new OperationDetail { Succeeded = false, Message = ex.Message };
             }
-
-            //throw new NotImplementedException();
         }
 
         async public Task<OperationDetail> DeletePlatform(int platfprmId)
@@ -97,8 +94,8 @@ namespace SimbirsfotStaging10.BLL.Services
             try
             {
                 List<Platform> PlatformList = new List<Platform>();
-                Platforms = new List<PlatformsDTO>();
-                PlatformList = await _context.Platforms.AsNoTracking().ToListAsync();//_context.Cards.AsNoTracking().ToListAsync();
+                List<PlatformsDTO> Platforms = new List<PlatformsDTO>();
+                PlatformList = await _context.Platforms.AsNoTracking().ToListAsync();
                 foreach (Platform item in PlatformList)
                 {
                     Platforms.Add(

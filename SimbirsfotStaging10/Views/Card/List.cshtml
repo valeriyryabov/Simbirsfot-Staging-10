@@ -1,0 +1,86 @@
+﻿@model IEnumerable<SimbirsfotStaging10.BLL.DTO.CardDTO>
+
+@{
+	ViewData["Title"] = "Карты доступа";
+}
+
+<h1 class="text-black-50">Карты доступа</h1>
+
+<div class="m-4">
+	<a class="btn btn-primary" asp-action="Create">Добавить новую карту</a>
+</div>
+
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>
+				Номер
+			</th>
+			<th>
+				Дата начала срока действия
+			</th>
+			<th>
+				Дата конца срока действия
+			</th>
+			<th>
+				Действия
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+
+		@{
+			if (Model.Any())
+			{
+				foreach (var item in Model)
+				{
+					<tr>
+						<th scope="row">
+							@item.Id.ToString()
+						</th>
+						<td>
+							@item.DateBegin.ToString()
+						</td>
+						<td>
+							@item.DateEnd.ToString()
+						</td>
+						<td>
+							<a class="btn btn-success font-weight-bold" asp-action="Edit" asp-route-id="@item.Id.ToString()">Изменить</a>
+							<a class="btn btn-danger font-weight-bold" asp-action="Delete" asp-route-id="@item.Id.ToString()">Удалить</a>
+						</td>
+					</tr>
+				}
+			}
+			else
+			{
+				<tr>
+					<th scope="row">
+						#
+					</th>
+					<td>
+						#
+					</td>
+					<td>
+						#
+					</td>
+					<td>
+						<a class="btn btn-warning font-weight-bold">Изменить</a> 
+						<a class="btn btn-danger font-weight-bold">Удалить</a>
+					</td>
+					<td>
+					</td>
+				</tr>
+
+			}
+
+		}
+	</tbody>
+</table>
+
+
+
+
+
+
+

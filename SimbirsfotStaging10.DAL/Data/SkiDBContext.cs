@@ -9,6 +9,7 @@ namespace SimbirsfotStaging10.DAL.Data
     {
         public SkiDBContext(DbContextOptions options) : base(options) { }
 
+
         public DbSet<Card> Cards { get; set; }
         public DbSet<CardPlatformItem> CardPlatformItemSet { get; set; }
         public DbSet<EventLog> EventLogSet { get; set; }

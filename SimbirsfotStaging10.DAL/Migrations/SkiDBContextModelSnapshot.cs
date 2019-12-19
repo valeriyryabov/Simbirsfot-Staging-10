@@ -188,14 +188,16 @@ namespace SimbirsfotStaging10.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CardId");
+                    b.Property<int?>("CardId");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("date");
 
                     b.Property<int>("EventType");
 
-                    b.Property<int>("PlatformId");
+                    b.Property<string>("Message");
+
+                    b.Property<int?>("PlatformId");
 
                     b.HasKey("Id");
 
@@ -377,13 +379,11 @@ namespace SimbirsfotStaging10.DAL.Migrations
                 {
                     b.HasOne("SimbirsfotStaging10.DAL.Entities.Card", "Card")
                         .WithMany()
-                        .HasForeignKey("CardId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("CardId");
 
                     b.HasOne("SimbirsfotStaging10.DAL.Entities.Platform", "Platform")
                         .WithMany("EventLogList")
-                        .HasForeignKey("PlatformId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PlatformId");
                 });
 
             modelBuilder.Entity("SimbirsfotStaging10.DAL.Entities.UserEquipmentItem", b =>
