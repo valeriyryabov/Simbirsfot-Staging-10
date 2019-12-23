@@ -1,14 +1,19 @@
-﻿using System.Threading.Tasks;
+using System;
+using System.Threading.Tasks;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
 using SimbirsfotStaging10.DAL.Entities;
+using SimbirsfotStaging10.DAL.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using Quartz;
 using SimbirsfotStaging10.Logger;
-
+using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using SimbirsfotStaging10.BLL.Infrastructure;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
@@ -18,13 +23,18 @@ namespace SimbirsfotStaging10.BLL.Services
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<UserService> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
+        private SkiDBContext _context;
 
-        public UserService(UserManager<User> UserManager, SignInManager<User> SignInManager, ILogger<UserService> logger)
+        public UserService(UserManager<User> UserManager, SignInManager<User> SignInManager,
+            ILogger<UserService> logger, IHttpContextAccessor httpContextAccessor, SkiDBContext context)
         {
             _userManager = UserManager;
             _signInManager = SignInManager;
             _logger = logger;
+            _httpContextAccessor = httpContextAccessor;
+            _context = context;
         }
 
 
@@ -38,8 +48,6 @@ namespace SimbirsfotStaging10.BLL.Services
         }
 
 
-
-
         public async Task<SignInResult> SignIn(UserRegisterDTO userDTO)
         {
             var userSignIn = await _signInManager.PasswordSignInAsync(userDTO.UserName, userDTO.PasswordHash, false, false);
@@ -48,7 +56,6 @@ namespace SimbirsfotStaging10.BLL.Services
                 userDTO);
             return userSignIn;
         }
-
 
 
         async public Task LogOut()
@@ -130,6 +137,50 @@ namespace SimbirsfotStaging10.BLL.Services
         public void Dispose()
         {
             _userManager.Dispose();
+        }
+
+
+        public async Task<User> GetCurrentUserAsync()
+        {
+            var user = await _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User);
+            return user;
+        }
+
+        public async Task<int> GetCurrentUserIDAsync()
+        {
+            var user = await GetCurrentUserAsync();
+            return user.Id;
+        }
+
+
+        public async Task<(List<CardDTO>, OperationDetail)> GetCurrentUserCardsAsync()
+        {
+            try
+            {
+                var currentUser = await GetCurrentUserAsync();
+                List<CardDTO> dTOs = new List<CardDTO>();
+                var user = _context.Users
+                    .Include(u => u.CardList)
+                    .SingleOrDefault(u => u.Id == currentUser.Id);
+                foreach (Card item in user.CardList)
+                {
+                    dTOs.Add(
+                        new CardDTO
+                        {
+                            Id = item.Id,
+                            DateBegin = item.DateBegin,
+                            DateEnd = item.DateEnd,
+                            UserId = item.UserId
+                        }
+                    );
+                }
+                return (dTOs, new OperationDetail { Succeeded = true });
+            }
+
+            catch (Exception ex)
+            {
+                return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
+            }
         }
     }
 }

@@ -56,7 +56,7 @@ namespace SimbirsfotStaging10.DAL.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    UserId = table.Column<int>(nullable: false),
+                    UserId = table.Column<int>(nullable: true),
                     DateBegin = table.Column<DateTime>(type: "datetime", nullable: false),
                     DateEnd = table.Column<DateTime>(type: "datetime", nullable: false)
                 },

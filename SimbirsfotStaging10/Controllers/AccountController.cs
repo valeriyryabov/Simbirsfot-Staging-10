@@ -87,7 +87,7 @@ namespace SimbirsfotStaging10.Controllers
 
         public async Task<IActionResult> LogOut()
         {
-            await _userService.LogOut();
+            await HttpContext.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
     }

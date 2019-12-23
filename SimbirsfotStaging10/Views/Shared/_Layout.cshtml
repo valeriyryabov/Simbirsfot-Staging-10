@@ -34,28 +34,30 @@
 			<div class="collapse navbar-collapse" id="navbarResponsive">
 				<ul class="navbar-nav ml-auto">
 					@{
-						if (User.Identity.IsAuthenticated)
-						{
-							<li class="nav-item">
-								<div class="nav-link js-scroll-trigger">Привет, @User.Identity.Name</div>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="LogOut">Выйти</a>
-							</li>
-						}
-						else
-						{
-							<li class="nav-item">
-								<a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="LogIn">Войти</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="Register">Регистрация</a>
-							</li>
-						}
-                        
-                    <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Platforms" asp-action="Index">Склоны</a>
-                            </li>
+					if (User.Identity.IsAuthenticated)
+					{
+					<li class="nav-item">
+						<div class="nav-link js-scroll-trigger">Привет, @User.Identity.Name</div>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" asp-controller="Card" asp-action="ListForCurrentUser">Мои карты доступа</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="LogOut">Выйти</a>
+					</li>
+					}
+					else
+					{
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="LogIn">Войти</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="Register">Регистрация</a>
+					</li>
+					}
+					<li class="nav-item">
+						<a class="nav-link text-dark" asp-controller="Platforms" asp-action="Index">Склоны</a>
+					</li>
 					}
 				</ul>
 			</div>

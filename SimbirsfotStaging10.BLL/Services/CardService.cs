@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using SimbirsfotStaging10.DAL.Data;
 using SimbirsfotStaging10.DAL.Entities;
-using SimbirsfotStaging10.DAL.Data;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
 using System.Threading.Tasks;
@@ -22,17 +21,18 @@ namespace SimbirsfotStaging10.BLL.Services
             _context = context;
         }
 
-        public async Task<OperationDetail> AddNew(CardDTO dTO)
+
+        public async Task<OperationDetail> AddNew(CardDTO dTO, int userId)
         {
             try
             {
-                await _context.Cards.AddAsync(CreateEntityFromDTO(dTO));
+                await _context.Cards.AddAsync(CreateEntityFromDTO(dTO, userId));
                 await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true }; 
             }
             catch (Exception ex)
             {
-                return new OperationDetail { Succeeded = false, Message = ex.Message };
+                return new OperationDetail { Succeeded = false, Message = ex.Message + "\n" + ex.InnerException };
             }
         }
 
@@ -96,21 +96,21 @@ namespace SimbirsfotStaging10.BLL.Services
         {
             try
             {
-                List<Card> CardsList = new List<Card>();
-                Cards = new List<CardDTO>(); 
-                CardsList = await _context.Cards.AsNoTracking().ToListAsync();
-                foreach(Card item in CardsList)
+                List<CardDTO> dTOList = new List<CardDTO>(); 
+                var entityList = await _context.Cards.AsNoTracking().ToListAsync();
+                foreach(Card item in entityList)
                 {
-                    Cards.Add(
+                    dTOList.Add(
                         new CardDTO
                         {
                             Id = item.Id,
                             DateBegin = item.DateBegin,
                             DateEnd = item.DateEnd,
+                            UserId = item.UserId
                         }
                     );
                 }
-                return (Cards, new OperationDetail { Succeeded = true });
+                return (dTOList, new OperationDetail { Succeeded = true });
             }
             catch (Exception ex)
             {
@@ -119,15 +119,43 @@ namespace SimbirsfotStaging10.BLL.Services
         }
 
 
-        static Card CreateEntityFromDTO(CardDTO dTO)
+        public async Task<(List<CardDTO>, OperationDetail)> GetAllFromDB(int userID)
         {
-            var entity = new Card
+            try
+            {
+                List<CardDTO> dTOList = new List<CardDTO>();
+                var entityList = await _context.Cards.AsNoTracking().ToListAsync();
+                foreach (Card item in entityList)
+                {
+                    if (item.UserId == userID)
+                    {
+                        dTOList.Add(
+                            new CardDTO
+                            {
+                                Id = item.Id,
+                                DateBegin = item.DateBegin,
+                                DateEnd = item.DateEnd,
+                            }
+                        );
+                    }
+                }
+                return (dTOList, new OperationDetail { Succeeded = true });
+            }
+            catch (Exception ex)
+            {
+                return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
+            }
+        }
+
+        private Card CreateEntityFromDTO(CardDTO dTO, int userId)
+        {
+            return new Card
             {
                 Id = dTO.Id,
+                UserId = userId,
                 DateBegin = dTO.DateBegin,
                 DateEnd = dTO.DateEnd,
             };
-            return entity;
         }
     }
 }
