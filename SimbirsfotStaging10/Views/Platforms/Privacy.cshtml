@@ -1,0 +1,48 @@
+﻿@using SimbirsfotStaging10.BLL.DTO
+@model IEnumerable<PlatformsDTO>
+@{
+    ViewBag.Title = "Виды склонов";
+}
+<h1>@ViewBag.Title</h1>
+<p>
+    <a asp-action="Create">Добавить новый склон</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Номер
+            </th>
+            <th>
+                Наименование склона
+            </th>
+          
+            <th>
+                Действия
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @{  
+
+            foreach (var platfoms in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => platfoms.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => platfoms.Name)
+                    </td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@platfoms.Id">Изменить</a> |
+                        <a asp-action="Delete" asp-route-id="@platfoms.Id">Удалить</a>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>

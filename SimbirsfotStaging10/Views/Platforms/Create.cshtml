@@ -1,0 +1,21 @@
+﻿@using SimbirsfotStaging10.Controllers;
+@model SimbirsfotStaging10.BLL.DTO.PlatformsDTO
+
+@*{
+    ViewData["Title"] = "Добавить новый склон";
+}*@
+
+<h2 class="text-center mb-5">Добавление нового склона</h2>
+<form  method="post" asp-controller="Platforms" asp-action="Create">
+    <div asp-validation-summary="ModelOnly"></div>
+     <div class="form-group">
+        <label asp-for="Name">Название склона</label><br />
+        <input asp-for="Name" type="Text" class="form-control col-9" placeholder="Детский - Веселые горки" />
+        <span asp-validation-for="Name"></span>
+    </div>
+     <div>
+         <button asp-action="Create" class="btn btn-light">Сохранить</button>
+         <button asp-action="Index" class="btn btn-light">Отмена</button>
+
+     </div>
+</form>
