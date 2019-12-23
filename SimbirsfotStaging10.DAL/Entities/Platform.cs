@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace SimbirsfotStaging10.DAL.Entities
 {
@@ -11,7 +11,7 @@ namespace SimbirsfotStaging10.DAL.Entities
 
         [Column(TypeName="varchar(255)")]
         public string Name { get; set; }
-
+        
         public List<CardPlatformItem> CardPlatformItemList { get; set; }
 
         public List<EventLog> EventLogList { get; set; }     

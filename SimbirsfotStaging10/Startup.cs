@@ -43,9 +43,10 @@ namespace SimbirsfotStaging10
 				options.CheckConsentNeeded = context => true;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
-    
+            services.AddTransient<IPlatformsService, PlatformsServices>();
+
             services.AddDbContextPool<SkiDBContext>( optionsBuilder => 
-                optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<ICardService, CardService>();
             services.AddIdentity<User, CustomRole>(opts => opts.SetCustomIdentityOptions())

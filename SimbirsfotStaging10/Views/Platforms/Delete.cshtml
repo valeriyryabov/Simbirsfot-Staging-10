@@ -1,0 +1,17 @@
+﻿@using SimbirsfotStaging10.Controllers;
+@model SimbirsfotStaging10.BLL.DTO.PlatformsDTO
+
+    <h2>Удаление склона</h2>
+    <form method="post" asp-controller="Platfoms">
+        <div asp-validation-summary="ModelOnly"></div>
+        <h4 asp-for="Id">Склон @Model.Name</h4><br />
+       
+        <div class="form-group">
+            <label><b>Вы действительно хотите удалить склон?</b></label>
+            <div>
+                <button asp-action="Delete" type="submit" class="btn btn-primary">Удалить склон</button>
+                <a asp-action="Index" class="btn btn-light">Отмена</a>
+            </div>
+        </div>
+    </form>
+
