@@ -21,5 +21,7 @@ namespace SimbirsfotStaging10.BLL.DTO
 
         [Required]
         public int UserId;
+
+        public IEnumerable<int> PlatformIdsWithAccess { get; set; }
     }
 }

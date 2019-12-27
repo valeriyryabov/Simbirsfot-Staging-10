@@ -1,48 +1,90 @@
 ﻿@using SimbirsfotStaging10.BLL.DTO
-@model IEnumerable<PlatformsDTO>
+@using SimbirsfotStaging10.BLL.Services;
+@model List<PlatformsDTO>
 @{
-    ViewBag.Title = "Виды склонов";
+	ViewBag.Title = "Виды склонов";
 }
 <h1>@ViewBag.Title</h1>
-<p>
-    <a asp-action="Create">Добавить новый склон</a>
-</p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Номер
-            </th>
-            <th>
-                Наименование склона
-            </th>
-          
-            <th>
-                Действия
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @{  
+<div class="input-group m-2">
+	<a asp-action="Create" class="btn btn-primary m-2 pt-2">Добавить новый склон</a>
+</div>
 
-            foreach (var platfoms in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => platfoms.Id)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => platfoms.Name)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@platfoms.Id">Изменить</a> |
-                        <a asp-action="Delete" asp-route-id="@platfoms.Id">Удалить</a>
-                    </td>
-                </tr>
-            }
-        }
+@using (Html.BeginForm("Create", "CardPlatform"))
+{
+	@if (User.Identity.IsAuthenticated)
+	{
+		<div class="m-2 input-group">
+			<button type="submit" class="btn btn-primary m-2"> Приобрести</button>
+			<input type="date" name="dateEndForNewCard" class="border-info m-2 input-group-text" />
+			<!-- <input type="time" name="timeEndForNewCard" /> --->
+		</div>
+	}
+	@Html.ValidationSummary(true)
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>
+					Номер
+				</th>
+				<th>
+					Наименование склона
+				</th>
 
-    </tbody>
-</table>
+				<th>
+					Действия
+				</th>
+				@{
+					if (User.Identity.IsAuthenticated)
+					{
+						<th>
+							Срок действия
+						</th>
+						<th>
+							Включить в новую карту
+						</th>
+					}
+				}
+			</tr>
+		</thead>
+
+		<tbody>
+			@{
+				for (int i = 0; i < Model.Count; i++)
+				{
+					<tr>
+						<td>
+							@Html.DisplayFor(model => model[i].Id)
+							@Html.HiddenFor(model => model[i].Id)
+						</td>
+						<td>
+							@Html.DisplayFor(model => model[i].Name)
+							@Html.HiddenFor(model => model[i].Name)
+						</td>
+						<td>
+							<a asp-action="Edit" asp-route-id="@Model[i].Id">Изменить</a> |
+							<a asp-action="Delete" asp-route-id="@Model[i].Id">Удалить</a>
+						</td>
+						@{
+							if (User.Identity.IsAuthenticated)
+							{
+								var str = Model[i].DateEnd == null ? "Нет доступа" : Model[i].DateEnd.ToString();
+								@Html.HiddenFor(model => model[i].DateEnd)
+								<td>
+									@str
+								</td>
+								<td>
+									@Html.CheckBoxFor(model => model[i].IsReserved)
+								</td>
+							}
+						}
+					</tr>
+
+				}
+
+			}
+
+
+		</tbody>
+	</table>
+}

@@ -5,6 +5,13 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Views\Shared\Platforms\**" />
+    <Content Remove="Views\Shared\Platforms\**" />
+    <EmbeddedResource Remove="Views\Shared\Platforms\**" />
+    <None Remove="Views\Shared\Platforms\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />

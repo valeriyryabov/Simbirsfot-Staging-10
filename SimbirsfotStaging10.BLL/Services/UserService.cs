@@ -160,8 +160,11 @@ namespace SimbirsfotStaging10.BLL.Services
                 var currentUser = await GetCurrentUserAsync();
                 List<CardDTO> dTOs = new List<CardDTO>();
                 var user = _context.Users
-                    .Include(u => u.CardList)
+                    .Include(u => u.CardList)                     
                     .SingleOrDefault(u => u.Id == currentUser.Id);
+                 _context.CardPlatformItemSet
+                    .Where(cp => user.CardList.Any(c => c.Id == cp.CardId))
+                    .Load();
                 foreach (Card item in user.CardList)
                 {
                     dTOs.Add(
@@ -170,7 +173,8 @@ namespace SimbirsfotStaging10.BLL.Services
                             Id = item.Id,
                             DateBegin = item.DateBegin,
                             DateEnd = item.DateEnd,
-                            UserId = item.UserId
+                            UserId = item.UserId,
+                            PlatformIdsWithAccess = item.CardPlatformItemList?.Select(cp => cp.PlatformId) ?? new int[] { }
                         }
                     );
                 }
@@ -181,6 +185,6 @@ namespace SimbirsfotStaging10.BLL.Services
             {
                 return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
             }
-        }
+        }       
     }
 }

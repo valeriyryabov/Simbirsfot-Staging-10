@@ -37,7 +37,7 @@ namespace SimbirsfotStaging10.Controllers
             if (ModelState.IsValid)
             {
                 int currentUserId = await _userService.GetCurrentUserIDAsync();
-                var res = await _cardservice.AddNew(card, currentUserId);
+                var res = (await _cardservice.AddNew(card, currentUserId)).Item2;
                 if (res.Succeeded)
                     return RedirectToAction("List");
                 else

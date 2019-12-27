@@ -13,7 +13,9 @@ namespace SimbirsfotStaging10.BLL.DTO
 
         [Required]
         public string Name { get; set; }
-        
 
+        public DateTime? DateEnd { get; set; }
+
+        public bool IsReserved { get; set; }
     }
 }

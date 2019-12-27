@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SimbirsfotStaging10.BLL.DTO;
@@ -9,7 +12,7 @@ namespace SimbirsfotStaging10.Controllers
     public class PlatformsController : Controller
     {
         private readonly IPlatformsService _platformService;
-        
+
         public PlatformsController(IPlatformsService platformsService)
         {
             _platformService = platformsService;
@@ -28,7 +31,7 @@ namespace SimbirsfotStaging10.Controllers
             {
                 var res = await _platformService.AddNewPlatform(platform);
                 if (res.Succeeded)
-                    RedirectToAction("Privacy","Create");
+                    RedirectToAction("Privacy", "Create");
                 else
                     ModelState.AddModelError("", res.Message);
             }
@@ -114,9 +117,9 @@ namespace SimbirsfotStaging10.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var res = await _platformService.GetAllPlatformsFromDB();
+            var res = await _platformService.GetPlatformsWithStateAsync();
             if (res.Item2.Succeeded)
-                return View("~/Views/Platforms/Privacy.cshtml", res.Item1);
+                return View("~/Views/Platforms/Privacy.cshtml", res.Item1.ToList());
             else
                 return StatusCode(StatusCodes.Status404NotFound);
         }
@@ -134,7 +137,7 @@ namespace SimbirsfotStaging10.Controllers
             }
             return View();
         }
-      
+
         [HttpPost, ActionName("List")]
         public async Task<IActionResult> ListConfirmed()
         {
@@ -147,6 +150,6 @@ namespace SimbirsfotStaging10.Controllers
                     ModelState.AddModelError("", res.Item2.Message);
             }
             return View();
-        }
+        }        
     }
 }

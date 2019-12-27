@@ -8,16 +8,20 @@ using SimbirsfotStaging10.BLL.Infrastructure;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.DAL.Data;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
     public class PlatformsServices : IPlatformsService
     {
         private SkiDBContext _context;
+        private readonly IUserService _userService;
 
-        public PlatformsServices(SkiDBContext context)
+
+        public PlatformsServices(SkiDBContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         public async Task<OperationDetail> AddNewPlatform(PlatformsDTO platformsDTO)
@@ -49,7 +53,7 @@ namespace SimbirsfotStaging10.BLL.Services
             }
         }
 
-        public async Task<OperationDetail> EditPlatform(int platfprmId,PlatformsDTO platformsDTO)
+        public async Task<OperationDetail> EditPlatform(int platfprmId, PlatformsDTO platformsDTO)
         {
             try
             {
@@ -113,16 +117,60 @@ namespace SimbirsfotStaging10.BLL.Services
                 return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
             }
         }
-       
+
         static Platform CreatePlatformEntityFromDTO(PlatformsDTO platformDTO)
         {
             var platformEntity = new Platform
             {
-                Id =platformDTO.Id,
-                Name=platformDTO.Name
+                Id = platformDTO.Id,
+                Name = platformDTO.Name
             };
             return platformEntity;
         }
 
+
+        public async Task<(IEnumerable<PlatformsDTO>, OperationDetail)> GetPlatformsWithStateAsync()
+        {
+            var platforms = _context.Platforms.ToArray();
+
+            var curUser = await _userService.GetCurrentUserAsync();
+            if (curUser == null)
+                return await GetAllPlatformsFromDB();
+
+            var userCards = await _context.Cards
+                .Where(c => c.UserId == curUser.Id)
+                .Include(c => c.CardPlatformItemList)
+                .ToArrayAsync();                
+              
+            var userPlatLatestCardTerms = userCards
+                .SelectMany(c => c.CardPlatformItemList)
+                .GroupBy(cp => cp.Platform)
+                .Select(
+                    g => CreatePlatformDto(g.Key, g.Max(cp => cp.Card.DateEnd))
+                )
+                .ToList();
+
+            Array.ForEach(platforms, p =>
+            {
+                if (!userPlatLatestCardTerms.Any(userPlat => userPlat.Id == p.Id))
+                    userPlatLatestCardTerms.Add(CreatePlatformDto(p, null));
+
+            });
+            return (userPlatLatestCardTerms, new OperationDetail { Succeeded = true });
+        }
+
+
+        private PlatformsDTO CreatePlatformDto(Platform plat, DateTime? DateEnd)
+        {
+            return new PlatformsDTO
+            {
+                Id = plat.Id,
+                DateEnd = DateEnd,
+                Name = plat.Name
+            };
+        }
+
+
+        private bool IsCardActive(Card card) => card.DateEnd <= DateTime.Now;
     }
 }
