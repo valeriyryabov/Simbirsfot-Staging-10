@@ -185,10 +185,6 @@ namespace SimbirsfotStaging10.BLL.Services
             {
                 return (null, new OperationDetail { Succeeded = false, Message = ex.Message });
             }
-        }
-
-
-
-        
+        }       
     }
 }
