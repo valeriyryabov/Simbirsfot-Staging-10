@@ -19,5 +19,6 @@ namespace SimbirsfotStaging10.BLL.Interfaces
         Task<(PlatformsDTO, OperationDetail)> GetPlatformById(int platfprmId);
        
         Task<(List<PlatformsDTO>, OperationDetail)> GetAllPlatformsFromDB();
+        Task<(IEnumerable<PlatformsDTO>, OperationDetail)> GetPlatformsWithStateAsync();
     }
 }

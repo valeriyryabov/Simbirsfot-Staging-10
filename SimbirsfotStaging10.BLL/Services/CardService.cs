@@ -22,17 +22,17 @@ namespace SimbirsfotStaging10.BLL.Services
         }
 
 
-        public async Task<OperationDetail> AddNew(CardDTO dTO, int userId)
+        public async Task<(Card,OperationDetail)> AddNew(CardDTO dTO, int userId)
         {
             try
             {
-                await _context.Cards.AddAsync(CreateEntityFromDTO(dTO, userId));
+                var card = (await _context.Cards.AddAsync(CreateEntityFromDTO(dTO, userId))).Entity;            
                 await _context.SaveChangesAsync();
-                return new OperationDetail { Succeeded = true }; 
+                return (card, new OperationDetail { Succeeded = true }); 
             }
             catch (Exception ex)
             {
-                return new OperationDetail { Succeeded = false, Message = ex.Message + "\n" + ex.InnerException };
+                return (null,new OperationDetail { Succeeded = false, Message = ex.Message + "\n" + ex.InnerException });
             }
         }
 

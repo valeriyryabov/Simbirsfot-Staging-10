@@ -11,6 +11,7 @@ namespace SimbirsfotStaging10.Logger
         RegistrationFail,
         SignInSucces,
         SignInFail,
-        Logout
+        Logout,
+        CreateCardWithPlatforms
     }
 }

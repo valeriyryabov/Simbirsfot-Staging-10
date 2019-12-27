@@ -10,3 +10,9 @@ for details on configuring this project to bundle and minify static web assets. 
 	border: solid black;
 }
 
+
+.validation-summary-errors {
+	border: 2px solid #64a19d;
+	background-color: silver;
+	border-radius: 5px;
+}

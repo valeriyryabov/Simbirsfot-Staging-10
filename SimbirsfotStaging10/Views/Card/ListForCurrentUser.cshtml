@@ -1,45 +1,51 @@
 ﻿@model IEnumerable<SimbirsfotStaging10.BLL.DTO.CardDTO>
 
 @{
-    ViewData["Title"] = "Мои карты доступа";
+	ViewData["Title"] = "Мои карты доступа";
 }
 
 <h1>Карты доступа пользователя @User.Identity.Name</h1>
 
 <p>
-    <a class="btn btn-primary" asp-action="Create">Добавить новую карту</a>
+	<a class="btn btn-primary" asp-action="Create">Добавить новую карту</a>
 </p>
 
 <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>
-                Номер
-            </th>
-            <th>
-                Дата начала срока действия
-            </th>
-            <th>
-                Дата конца срока действия
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+	<thead>
+		<tr>
+			<th>
+				Номер
+			</th>
+			<th>
+				Дата начала срока действия
+			</th>
+			<th>
+				Дата конца срока действия
+			</th>
+			<th>
+				Доступ к платформам
+			</th>
+		</tr>
+	</thead>
+	<tbody>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateBegin)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateEnd)
-                </td>
-            </tr>
-        }
-    </tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Id)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DateBegin)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.DateEnd)
+				</td>
+				<td>
+					@string.Join(',', item.PlatformIdsWithAccess)
+				</td>
+
+			</tr>
+		}
+	</tbody>
 </table>
