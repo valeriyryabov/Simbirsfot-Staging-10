@@ -7,22 +7,20 @@ using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
 using System.Threading.Tasks;
 using SimbirsfotStaging10.BLL.Infrastructure;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
-using System.ComponentModel.DataAnnotations;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
     public class CardService : ICardService
     {
         private SkiDBContext _context;
+        private List<CardDTO> Cards { get; set; }
 
         public CardService(SkiDBContext context)
         {
             _context = context;
         }
+
 
         public async Task<OperationDetail> AddNew(CardDTO dTO, int userId)
         {
@@ -31,20 +29,6 @@ namespace SimbirsfotStaging10.BLL.Services
                 await _context.Cards.AddAsync(CreateEntityFromDTO(dTO, userId));
                 await _context.SaveChangesAsync();
                 return new OperationDetail { Succeeded = true }; 
-            }
-            catch (Exception ex)
-            {
-                return new OperationDetail { Succeeded = false, Message = ex.Message + "\n" + ex.InnerException };
-            }
-        }
-
-        public async Task<OperationDetail> AddNew(CardDTO dTO, int userId, User owner)
-        {
-            try
-            {
-                await _context.Cards.AddAsync(CreateEntityFromDTO(dTO, userId, owner));
-                await _context.SaveChangesAsync();
-                return new OperationDetail { Succeeded = true };
             }
             catch (Exception ex)
             {
@@ -134,6 +118,7 @@ namespace SimbirsfotStaging10.BLL.Services
             }
         }
 
+
         public async Task<(List<CardDTO>, OperationDetail)> GetAllFromDB(int userID)
         {
             try
@@ -170,18 +155,6 @@ namespace SimbirsfotStaging10.BLL.Services
                 UserId = userId,
                 DateBegin = dTO.DateBegin,
                 DateEnd = dTO.DateEnd,
-            };
-        }
-
-        private Card CreateEntityFromDTO(CardDTO dTO, int userId, User owner)
-        {
-            return new Card
-            {
-                Id = dTO.Id,
-                UserId = userId,
-                DateBegin = dTO.DateBegin,
-                DateEnd = dTO.DateEnd,
-                Owner = owner
             };
         }
     }

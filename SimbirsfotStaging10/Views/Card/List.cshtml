@@ -1,63 +1,81 @@
 ﻿@model IEnumerable<SimbirsfotStaging10.BLL.DTO.CardDTO>
-@using Microsoft.EntityFrameworkCore;
-@using SimbirsfotStaging10.DAL.Data;
-@using SimbirsfotStaging10.DAL.Entities
 
 @{
-    ViewData["Title"] = "Карты доступа";
+	ViewData["Title"] = "Карты доступа";
 }
 
-<h1>Карты доступа всех пользователей</h1>
+<h1 class="text-black-50">Карты доступа</h1>
 
-<p>
-    <a asp-action="Create">Добавить новую карту</a>
-</p>
+<div class="m-4">
+	<a class="btn btn-primary" asp-action="Create">Добавить новую карту</a>
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Номер
-            </th>
-            <th>
-                ID пользователя
-            </th>
-            <th>
-                Дата начала срока действия
-            </th>
-            <th>
-                Дата конца срока действия
-            </th>
-            <th>
-                Действия
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<th>
+				Номер
+			</th>
+			<th>
+				Дата начала срока действия
+			</th>
+			<th>
+				Дата конца срока действия
+			</th>
+			<th>
+				Действия
+			</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateBegin)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DateEnd)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Изменить</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Удалить</a>
-                </td>
-            </tr>
-        }
-    </tbody>
+		@{
+			if (Model.Any())
+			{
+				foreach (var item in Model)
+				{
+					<tr>
+						<th scope="row">
+							@item.Id.ToString()
+						</th>
+						<td>
+							@item.DateBegin.ToString()
+						</td>
+						<td>
+							@item.DateEnd.ToString()
+						</td>
+						<td>
+							<a class="btn btn-success font-weight-bold" asp-action="Edit" asp-route-id="@item.Id.ToString()">Изменить</a>
+							<a class="btn btn-danger font-weight-bold" asp-action="Delete" asp-route-id="@item.Id.ToString()">Удалить</a>
+						</td>
+					</tr>
+				}
+			}
+			else
+			{
+				<tr>
+					<th scope="row">
+						#
+					</th>
+					<td>
+						#
+					</td>
+					<td>
+						#
+					</td>
+					<td>
+						<a class="btn btn-warning font-weight-bold">Изменить</a> 
+						<a class="btn btn-danger font-weight-bold">Удалить</a>
+					</td>
+					<td>
+					</td>
+				</tr>
+
+			}
+
+		}
+	</tbody>
 </table>
 
 

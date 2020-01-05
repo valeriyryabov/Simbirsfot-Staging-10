@@ -35,6 +35,5 @@ namespace SimbirsfotStaging10.DAL.Data
                 return new SkiDBContext(optionsBuilder.Options);
             }
         }
-
     }
 }

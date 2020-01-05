@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
 using SimbirsfotStaging10.BLL.DTO;
 using SimbirsfotStaging10.BLL.Interfaces;
@@ -17,6 +17,7 @@ using SimbirsfotStaging10.BLL.Infrastructure;
 
 namespace SimbirsfotStaging10.BLL.Services
 {
+
     public class UserService : IUserService
     {
         private readonly UserManager<User> _userManager;
@@ -55,7 +56,6 @@ namespace SimbirsfotStaging10.BLL.Services
                 userDTO);
             return userSignIn;
         }
-
 
 
         async public Task LogOut()
@@ -152,27 +152,6 @@ namespace SimbirsfotStaging10.BLL.Services
             return user.Id;
         }
 
-        public async Task<List<CardDTO>> GetCurrentUserCardsAsync_()
-        {
-            var currentUser = await GetCurrentUserAsync();
-            List<CardDTO> dTOs = new List<CardDTO>();
-            var user = _context.Users
-                .Include(u => u.CardList)
-                .SingleOrDefault(u => u.Id == currentUser.Id);
-            foreach (Card item in user.CardList)
-            {
-                dTOs.Add(
-                    new CardDTO
-                    {
-                        Id = item.Id,
-                        DateBegin = item.DateBegin,
-                        DateEnd = item.DateEnd,
-                        UserId = item.UserId
-                    }
-                );
-            }
-            return dTOs;
-        }
 
         public async Task<(List<CardDTO>, OperationDetail)> GetCurrentUserCardsAsync()
         {
