@@ -24,44 +24,45 @@
 </head>
 <body id="page-top" class="mb-0">
 	<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-		<div class="container">
-			<a class="navbar-brand js-scroll-trigger" asp-controller="Home" asp-action="Index">Ski resort</a>
-			<a class="nav-link js-scroll-trigger" asp-controller="Card" asp-action="List">Карты доступа</a>
-			<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-				Menu
-				<i class="fas fa-bars"></i>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarResponsive">
-				<ul class="navbar-nav ml-auto">
-					@{
-					if (User.Identity.IsAuthenticated)
-					{
-					<li class="nav-item">
-						<div class="nav-link js-scroll-trigger">Привет, @User.Identity.Name</div>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" asp-controller="Card" asp-action="ListForCurrentUser">Мои карты доступа</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="LogOut">Выйти</a>
-					</li>
-					}
-					else
-					{
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="LogIn">Войти</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="Register">Регистрация</a>
-					</li>
-					}
-					<li class="nav-item">
-						<a class="nav-link text-dark" asp-controller="Platforms" asp-action="Index">Склоны</a>
-					</li>
-					}
-				</ul>
-			</div>
-		</div>
+        <div class="container">
+            <a class="navbar-brand js-scroll-trigger" asp-controller="Home" asp-action="Index">Ski resort</a>
+            <a class="nav-link js-scroll-trigger" asp-controller="Card" asp-action="List">Карты доступа</a>
+            <a class="nav-link js-scroll-trigger" asp-controller="Equipment" asp-action="Create">Оборудование</a>
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    @{
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <div class="nav-link js-scroll-trigger">Привет, @User.Identity.Name</div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link js-scroll-trigger" asp-controller="Card" asp-action="ListForCurrentUser">Мои карты доступа</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="LogOut">Выйти</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="LogIn">Войти</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link js-scroll-trigger" asp-controller="Account" asp-action="Register">Регистрация</a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Platforms" asp-action="Index">Склоны</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
 	</nav>
 
 	<header class="masthead">

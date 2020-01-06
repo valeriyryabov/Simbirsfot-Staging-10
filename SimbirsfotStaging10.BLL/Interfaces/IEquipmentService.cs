@@ -7,11 +7,12 @@ using SimbirsfotStaging10.BLL.Infrastructure;
 
 namespace SimbirsfotStaging10.BLL.Interfaces
 {
-    interface IEquipmentService
+    public interface IEquipmentService
     {
-        Task<OperationDetail> AddNew(EquipmentDTO DTO, int userId);
-        Task<OperationDetail> Delete(int equipmentId);
-        Task<OperationDetail> Edit(int equipmentId, EquipmentDTO DTO);
-        Task<(EquipmentDTO, OperationDetail)> GetById(int equipmentId);
+        Task<OperationDetail> AddNewAsync(EquipmentDTO DTO);
+        Task<OperationDetail> DeleteAsync(int Id);
+        Task<OperationDetail> EditAsync(int Id, EquipmentDTO DTO);
+        Task<(EquipmentDTO, OperationDetail)> GetByIdAsync(int Id);
+        Task<(List<EquipmentDTO>, OperationDetail)> GetAllFromDBAsync();
     }
 }

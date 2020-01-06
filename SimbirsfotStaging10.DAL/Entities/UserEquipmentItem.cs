@@ -19,8 +19,15 @@ namespace SimbirsfotStaging10.DAL.Entities
         [Column(TypeName = "datetime")]
         public DateTime DateEnd { get; set; }
 
+
         public User User { get; set; }
 
         public Equipment Equipment { get; set; }
+
+
+        public UserEquipmentItem()
+        {
+            User = new User();
+        }
     }
 }
