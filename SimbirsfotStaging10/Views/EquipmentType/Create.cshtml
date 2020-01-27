@@ -1,0 +1,32 @@
+﻿@model SimbirsfotStaging10.BLL.DTO.EquipmentTypeDTO
+@{
+    <h2 class="text-center> mb-5">Добавление нового типа экипировки</h2>
+    <form method="post" asp-controller="EquipmentType" asp-action="Create">
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div class="form-group">
+            <label asp-for="Name">Название типа экипировки</label><br />
+            <input asp-for="Name" type="text" class="form-control col-3" placeholder="Название" />
+            <span asp-validation-for="Name"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SizeAge">Возраст</label><br />
+            <input asp-for="SizeAge" type="text" class="form-control col-3" placeholder="Возраст" />
+            <span asp-validation-for="SizeAge"></span>
+            <!--<select asp-for="SizeAge" type="text" name="Возраст" class="form-control col-3" >
+                <option value="">Выберите возраст, для которого предназначается данный вид экипировки </option>
+                <option value="adult">Взрослые</option>
+                <option value="kid">Дети</option>
+                <option value="non">Отсутствует</option>
+            </select>
+    -->
+
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Добавить оборудование</button>
+            <button asp-action="List" class="btn btn-light">Отмена</button>
+        </div>
+    </form>
+}

@@ -43,19 +43,31 @@ namespace SimbirsfotStaging10
 				options.CheckConsentNeeded = context => true;
 				options.MinimumSameSitePolicy = SameSiteMode.None;
 			});
+
             services.AddTransient<IPlatformsService, PlatformsServices>();
 
             services.AddDbContextPool<SkiDBContext>( optionsBuilder => 
             optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddTransient<IUserService, UserService>();
+
             services.AddTransient<ICardService, CardService>();
+
             services.AddTransient<IEquipmentService, EquipmentService>();
+
+            services.AddTransient<IEquipmentTypeService, EquipmentTypeService>();
+
             services.AddIdentity<User, CustomRole>(opts => opts.SetCustomIdentityOptions())
                 .AddEntityFrameworkStores<SkiDBContext>();
+
             services.ConfigureApplicationCookie( opts => opts.LoginPath = "/Account/Login");
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
             services.AddQuartzDbLogging();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddHttpContextAccessor();
 
             services.AddAuthentication(opts =>
@@ -64,6 +76,7 @@ namespace SimbirsfotStaging10
                 opts.DefaultSignInScheme = IdentityConstants.ApplicationScheme;
                 opts.DefaultSignOutScheme = IdentityConstants.ApplicationScheme;
             });
+
             services.AddAuthServices();
 
         }
