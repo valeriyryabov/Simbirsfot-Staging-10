@@ -54,8 +54,8 @@ namespace SimbirsfotStaging10.BLL.Services
             try
             {
                 Equipment equipment = await _context.EquipmentSet.FindAsync(Id);
-                equipment.Name = DTO.Name;
-                equipment.Type = DTO.Type;
+                //equipment.Name = DTO.Name;
+                //equipment.Type = DTO.Type;
                 equipment.IsDeleted = DTO.IsDeleted;
                 _context.EquipmentSet.Update(equipment);
                 await _context.SaveChangesAsync();
@@ -79,8 +79,8 @@ namespace SimbirsfotStaging10.BLL.Services
                         new EquipmentDTO
                         {
                             Id = item.Id,
-                            Name = item.Name,
-                            Type = item.Type,
+                            //Name = item.Name,
+                            //Type = item.Type,
                             IsDeleted = item.IsDeleted
                         }
                     );
@@ -102,8 +102,8 @@ namespace SimbirsfotStaging10.BLL.Services
                     new EquipmentDTO
                     {
                         Id = equipment.Id,
-                        Name = equipment.Name,
-                        Type = equipment.Type,
+                        //Name = equipment.Name,
+                        //Type = equipment.Type,
                         IsDeleted = equipment.IsDeleted
                     },
                     new OperationDetail
@@ -122,8 +122,8 @@ namespace SimbirsfotStaging10.BLL.Services
             return new Equipment
             {
                 Id = dTO.Id,
-                Name = dTO.Name,
-                Type = dTO.Type,
+                //Name = dTO.Name,
+                //Type = dTO.Type,
                 IsDeleted = dTO.IsDeleted
             };
         }
